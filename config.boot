@@ -63,7 +63,6 @@ firewall {
 interfaces {
     ethernet eth0 {
         address 192.168.1.1/24
-        address 192.168.0.1/24
         description LAN
         duplex auto
         speed auto
@@ -102,13 +101,13 @@ service {
         hostfile-update disable
         shared-network-name LAN {
             authoritative disable
-            subnet 192.168.0.1/24 {
-                default-router 192.168.0.1
+            subnet 192.168.1.1/24 {
+                default-router 192.168.1.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
                 lease 86400
-                start 192.168.0.20 {
-                    stop 192.168.0.225
+                start 192.168.1.20 {
+                    stop 192.168.1.225
                 }
             }
         }
