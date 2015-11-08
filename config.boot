@@ -163,6 +163,11 @@ system {
         server 3.ubnt.pool.ntp.org {
         }
     }
+    offload {
+        ipv4 {
+            vlan enable
+        }
+    }
     syslog {
         global {
             facility all {
