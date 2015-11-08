@@ -87,7 +87,7 @@ interfaces {
         }
     }
     ethernet eth2 {
-        address 192.168.100.1/24
+        address 192.168.3.1/24
         description "Local Config Port"
         duplex auto
         speed auto
@@ -95,27 +95,36 @@ interfaces {
     loopback lo {
     }
 }
+port-forward {
+    auto-firewall enable
+    hairpin-nat enable
+    lan-interface eth0
+    wan-interface eth1.2
+}
 service {
     dhcp-server {
         disabled false
         hostfile-update disable
         shared-network-name LAN {
             authoritative disable
-            subnet 192.168.1.1/24 {
+            subnet 192.168.1.0/24 {
                 default-router 192.168.1.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
                 lease 86400
-                start 192.168.1.20 {
-                    stop 192.168.1.225
+                start 192.168.1.101 {
+                    stop 192.168.1.254
                 }
             }
         }
     }
     dns {
         forwarding {
-            cache-size 150
+            cache-size 500
             listen-on eth0
+            name-server 8.8.8.8
+            name-server 2001:4860:4860::8888
+            system
         }
     }
     gui {
@@ -142,7 +151,7 @@ service {
     }
 }
 system {
-    host-name ubnt
+    host-name UBNT-gateway
     login {
         user ubnt {
             authentication {
@@ -153,6 +162,8 @@ system {
     }
     name-server 8.8.8.8
     name-server 8.8.4.4
+    name-server 2001:4860:4860::8888
+    name-server 2001:4860:4860::8844
     ntp {
         server 0.ubnt.pool.ntp.org {
         }
@@ -165,6 +176,7 @@ system {
     }
     offload {
         ipv4 {
+            forwarding enable
             vlan enable
         }
     }
@@ -179,6 +191,10 @@ system {
         }
     }
     time-zone America/Denver
+    traffic-analysis {
+        dpi disable
+        export disable
+    }
 }
 
 
