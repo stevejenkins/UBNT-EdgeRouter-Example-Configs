@@ -109,8 +109,7 @@ service {
             authoritative disable
             subnet 192.168.1.0/24 {
                 default-router 192.168.1.1
-                dns-server 8.8.8.8
-                dns-server 8.8.4.4
+                dns-server 192.168.1.1
                 lease 86400
                 start 192.168.1.101 {
                     stop 192.168.1.254
