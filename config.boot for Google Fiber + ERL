@@ -183,7 +183,6 @@ system {
         ipv6 {
             forwarding disable
         }
-
     }
     syslog {
         global {
