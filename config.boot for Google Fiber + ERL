@@ -122,6 +122,7 @@ service {
             cache-size 1000
             listen-on eth0
             name-server 8.8.8.8
+            name-server 8.8.4.4
             name-server 2001:4860:4860::8888
             system
         }
@@ -174,10 +175,15 @@ system {
         }
     }
     offload {
+        ipsec enable
         ipv4 {
             forwarding enable
             vlan enable
         }
+        ipv6 {
+            forwarding disable
+        }
+
     }
     syslog {
         global {
@@ -190,12 +196,7 @@ system {
         }
     }
     time-zone America/Denver
-    traffic-analysis {
-        dpi disable
-        export disable
-    }
 }
-
 
 /* Warning: Do not remove the following line. */
 /* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@4:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1" === */
