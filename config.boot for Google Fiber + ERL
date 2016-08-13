@@ -166,6 +166,7 @@ interfaces {
             dhcpv6-pd {
                 pd 1 {
                     interface eth0 {
+                        prefix-id :0
                         service slaac
                     }
                     prefix-length /56
