@@ -1,10 +1,76 @@
 firewall {
     all-ping enable
     broadcast-ping disable
+    ipv6-name WAN6_IN {
+        default-action drop
+        rule 10 {
+            action accept
+            description "Allow established/related"
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 20 {
+            action drop
+            description "Drop invalid state"
+            state {
+                invalid enable
+            }
+        }
+    }
+    ipv6-name WAN6_LOCAL {
+        default-action drop
+        rule 10 {
+            action accept
+            description "Allow established/related"
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 20 {
+            action drop
+            description "Drop invalid state"
+            state {
+                invalid enable
+            }
+        }
+        rule 30 {
+            action accept
+            description "Allow ICMPv6"
+            icmpv6 {
+            }
+            protocol ipv6-icmp
+        }
+        rule 40 {
+            action accept
+            description "Allow DHCPv6"
+            destination {
+                port 546
+            }
+            protocol udp
+            source {
+                port 547
+            }
+        }
+    }
     ipv6-receive-redirects disable
     ipv6-src-route disable
     ip-src-route disable
     log-martians enable
+    name LAN_IN {
+        default-action accept
+        description "LAN to Internal"
+        enable-default-log
+        rule 1 {
+            action drop
+            description "drop invalid state"
+            state {
+                invalid enable
+            }
+        }
+    }
     name WAN_IN {
         default-action drop
         description "WAN to Internal"
@@ -44,6 +110,7 @@ firewall {
             action drop
             description "Drop invalid state"
             log enable
+            protocol all
             state {
                 invalid enable
             }
@@ -65,6 +132,11 @@ interfaces {
         address 192.168.1.1/24
         description LAN
         duplex auto
+        firewall {
+            in {
+                name LAN_IN
+            }
+        }
         speed auto
     }
     ethernet eth1 {
@@ -73,14 +145,31 @@ interfaces {
         speed auto
         vif 2 {
             address dhcp
-            address dhcpv6
             description "Google Fiber WAN"
+            dhcp-options {
+                default-route update
+                default-route-distance 210
+                name-server no-update
+            }
+            dhcpv6-pd {
+                pd 0 {
+                    interface eth0 {
+                        host-address ::1
+                        prefix-id :1
+                        service slaac
+                    }
+                    prefix-length /56
+                }
+                rapid-commit enable
+            }
             egress-qos 0:3
             firewall {
                 in {
+                    ipv6-name WAN6_IN
                     name WAN_IN
                 }
                 local {
+                    ipv6-name WAN6_LOCAL
                     name WAN_LOCAL
                 }
             }
@@ -90,6 +179,11 @@ interfaces {
         address 192.168.3.1/24
         description "Local Config Port"
         duplex auto
+        firewall {
+            in {
+                name LAN_IN
+            }
+        }
         speed auto
     }
     loopback lo {
@@ -110,12 +204,15 @@ service {
             subnet 192.168.1.0/24 {
                 default-router 192.168.1.1
                 dns-server 192.168.1.1
+                dns-server 8.8.8.8
+                dns-server 8.8.4.4
                 lease 86400
                 start 192.168.1.101 {
                     stop 192.168.1.254
                 }
             }
         }
+        use-dnsmasq disable
     }
     dns {
         forwarding {
@@ -124,11 +221,14 @@ service {
             name-server 8.8.8.8
             name-server 8.8.4.4
             name-server 2001:4860:4860::8888
+            name-server 2001:4860:4860::8844
             system
         }
     }
     gui {
+        http-port 80
         https-port 443
+        older-ciphers enable
     }
     nat {
         rule 5000 {
@@ -156,7 +256,9 @@ system {
         user ubnt {
             authentication {
                 encrypted-password $1$zKNoUbAo$gomzUbYvgyUMcD436Wo66.
+                plaintext-password ""
             }
+            full-name "UBNT Admin"
             level admin
         }
     }
@@ -164,6 +266,7 @@ system {
     name-server 8.8.4.4
     name-server 2001:4860:4860::8888
     name-server 2001:4860:4860::8844
+    name-server 127.0.0.1
     ntp {
         server 0.ubnt.pool.ntp.org {
         }
@@ -175,13 +278,38 @@ system {
         }
     }
     offload {
+        hwnat enable
         ipsec enable
         ipv4 {
             forwarding enable
             vlan enable
         }
         ipv6 {
-            forwarding disable
+            forwarding enable
+            vlan enable
+        }
+    }
+    package {
+        repository debian {
+            components main
+            distribution wheezy
+            password ""
+            url http://ftp.us.debian.org/debian
+            username ""
+        }
+        repository wheezy {
+            components "main contrib non-free"
+            distribution wheezy
+            password ""
+            url http://http.us.debian.org/debian
+            username ""
+        }
+        repository wheezy-security {
+            components main
+            distribution wheezy/updates
+            password ""
+            url http://security.debian.org
+            username ""
         }
     }
     syslog {
@@ -195,8 +323,12 @@ system {
         }
     }
     time-zone America/Denver
+    traffic-analysis {
+        dpi enable
+        export enable
+    }
 }
 
 /* Warning: Do not remove the following line. */
-/* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@4:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1" === */
-/* Release version: v1.7.0.4783374.150622.1534 */
+/* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@5:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1" === */
+/* Release version: v1.9.0.4901118.160804.1131 */
