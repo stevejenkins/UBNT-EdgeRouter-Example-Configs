@@ -99,6 +99,12 @@ firewall {
         enable-default-log
         rule 1 {
             action accept
+            description "Allow ICMP"
+            log disable
+            protocol icmp
+        }
+        rule 2 {
+            action accept
             description "Allow established/related"
             log disable
             state {
@@ -106,7 +112,7 @@ firewall {
                 related enable
             }
         }
-        rule 2 {
+        rule 3 {
             action drop
             description "Drop invalid state"
             log enable
