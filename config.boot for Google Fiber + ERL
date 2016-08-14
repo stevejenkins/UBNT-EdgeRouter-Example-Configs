@@ -18,6 +18,12 @@ firewall {
                 invalid enable
             }
         }
+        rule 30 {
+            action accept
+            description "Allow ICMPv6"
+            log disable
+            protocol icmpv6
+        }
     }
     ipv6-name WAN6_LOCAL {
         default-action drop
