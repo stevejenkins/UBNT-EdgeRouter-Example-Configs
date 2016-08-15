@@ -69,7 +69,7 @@ firewall {
         default-action accept
         description "LAN to Internal"
         enable-default-log
-        rule 1 {
+        rule 10 {
             action drop
             description "drop invalid state"
             state {
@@ -81,7 +81,7 @@ firewall {
         default-action drop
         description "WAN to Internal"
         enable-default-log
-        rule 1 {
+        rule 10 {
             action accept
             description "Allow established/related"
             log disable
@@ -90,7 +90,7 @@ firewall {
                 related enable
             }
         }
-        rule 2 {
+        rule 20 {
             action drop
             description "Drop invalid state"
             log enable
@@ -103,13 +103,13 @@ firewall {
         default-action drop
         description "WAN to Router"
         enable-default-log
-        rule 1 {
+        rule 10 {
             action accept
             description "Allow ICMP"
             log disable
             protocol icmp
         }
-        rule 2 {
+        rule 20 {
             action accept
             description "Allow established/related"
             log disable
@@ -118,7 +118,7 @@ firewall {
                 related enable
             }
         }
-        rule 3 {
+        rule 30 {
             action drop
             description "Drop invalid state"
             log enable
