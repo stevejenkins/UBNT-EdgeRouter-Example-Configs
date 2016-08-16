@@ -235,10 +235,10 @@ service {
         forwarding {
             cache-size 1000
             listen-on eth0
-            name-server 8.8.8.8
-            name-server 8.8.4.4
             name-server 2001:4860:4860::8888
             name-server 2001:4860:4860::8844
+            name-server 8.8.8.8
+            name-server 8.8.4.4
             system
         }
     }
@@ -279,10 +279,10 @@ system {
             level admin
         }
     }
-    name-server 8.8.8.8
-    name-server 8.8.4.4
     name-server 2001:4860:4860::8888
     name-server 2001:4860:4860::8844
+    name-server 8.8.8.8
+    name-server 8.8.4.4
     name-server 127.0.0.1
     ntp {
         server 0.ubnt.pool.ntp.org {
