@@ -164,20 +164,26 @@ interfaces {
         vif 2 {
             address dhcp
             description "Google Fiber WAN"
-            dhcp-options {
-                default-route update
-                default-route-distance 210
-                name-server no-update
-            }
             dhcpv6-pd {
-                pd 1 {
+                pd 0 {
                     interface eth0 {
-                        prefix-id :0
-                        service slaac
+                    host-address ::1
+                    prefix-id :0
+                    service slaac
                     }
-                    prefix-length /56
+                    interface eth0.102 {
+                    host-address ::1
+                    prefix-id :2
+                    service slaac
+                    }
+                    interface eth2 {
+                    host-address ::1
+                    prefix-id :3
+                    service slaac
+                    }
+                prefix-length /56
                 }
-                rapid-commit enable
+            rapid-commit enable
             }
             egress-qos 0:3
             firewall {
