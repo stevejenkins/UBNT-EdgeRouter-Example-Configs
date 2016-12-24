@@ -61,6 +61,24 @@ firewall {
             }
         }
     }
+        ipv6-name WAN6_OUT {
+        default-action accept
+        rule 10 {
+            action accept
+            description "Allow established/related"
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 20 {
+            action reject
+            description "Reject invalid state"
+            state {
+                invalid enable
+            }
+        }
+    }
     ipv6-receive-redirects disable
     ipv6-src-route disable
     ip-src-route disable
@@ -99,17 +117,11 @@ firewall {
             }
         }
     }
-    name WAN_LOCAL {
+        name WAN_LOCAL {
         default-action drop
         description "WAN to Router"
         enable-default-log
         rule 10 {
-            action accept
-            description "Allow ICMP"
-            log disable
-            protocol icmp
-        }
-        rule 20 {
             action accept
             description "Allow established/related"
             log disable
@@ -118,11 +130,39 @@ firewall {
                 related enable
             }
         }
-        rule 30 {
+        rule 20 {
             action drop
             description "Drop invalid state"
             log enable
             protocol all
+            state {
+                invalid enable
+            }
+        }
+        rule 30 {
+            action accept
+            description "Allow ICMP"
+            log disable
+            protocol icmp
+        }
+    }
+    name WAN_OUT {
+        default-action accept
+        description "Internal to WAN"
+        enable-default-log
+        rule 10 {
+            action accept
+            description "Allow established/related"
+            log disable
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 20 {
+            action reject
+            description "Reject invalid state"
+            log enable
             state {
                 invalid enable
             }
@@ -144,18 +184,17 @@ interfaces {
         address 192.168.1.1/24
         description LAN
         duplex auto
-        ipv6 {
-            address {
-                autoconf
-            }
-            dup-addr-detect-transmits 1
-        }
         firewall {
             in {
                 name LAN_IN
             }
         }
         speed auto
+        vif 102 {
+            address 10.0.0.1/24
+            description "Guest Network VLAN"
+            mtu 1500
+        }
     }
     ethernet eth1 {
         description "Google Fiber Jack"
@@ -173,12 +212,12 @@ interfaces {
                     }
                     interface eth0.102 {
                     host-address ::1
-                    prefix-id :2
+                    prefix-id :1
                     service slaac
                     }
                     interface eth2 {
                     host-address ::1
-                    prefix-id :3
+                    prefix-id :2
                     service slaac
                     }
                 prefix-length /56
@@ -222,6 +261,19 @@ service {
     dhcp-server {
         disabled false
         hostfile-update enable
+        shared-network-name Guest {
+            authoritative disable
+            subnet 10.0.0.0/24 {
+                default-router 10.0.0.1
+                dns-server 8.8.8.8
+                dns-server 8.8.4.4
+                domain-name guest.example.org
+                lease 86400
+                start 10.0.0.10 {
+                    stop 10.0.0.199
+                }
+            }
+        }
         shared-network-name LAN {
             authoritative disable
             subnet 192.168.1.0/24 {
@@ -229,9 +281,22 @@ service {
                 dns-server 192.168.1.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
+                domain-name example.org
                 lease 86400
                 start 192.168.1.101 {
                     stop 192.168.1.254
+                }
+            }
+        }
+        shared-network-name LAN2 {
+            authoritative disable
+            subnet 192.168.3.0/24 {
+                default-router 192.168.3.1
+                dns-server 8.8.8.8
+                dns-server 8.8.4.4
+                lease 86400
+                start 192.168.3.101 {
+                    stop 192.168.3.255
                 }
             }
         }
@@ -245,7 +310,6 @@ service {
             name-server 2001:4860:4860::8844
             name-server 8.8.8.8
             name-server 8.8.4.4
-            system
         }
     }
     gui {
@@ -289,7 +353,6 @@ system {
     name-server 2001:4860:4860::8844
     name-server 8.8.8.8
     name-server 8.8.4.4
-    name-server 127.0.0.1
     ntp {
         server 0.ubnt.pool.ntp.org {
         }
@@ -325,13 +388,6 @@ system {
             distribution wheezy
             password ""
             url http://http.us.debian.org/debian
-            username ""
-        }
-        repository wheezy-security {
-            components main
-            distribution wheezy/updates
-            password ""
-            url http://security.debian.org
             username ""
         }
     }
