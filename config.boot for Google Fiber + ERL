@@ -149,7 +149,7 @@ firewall {
             action accept
             description "Port Forward - Router SSH"
             destination {
-                address 192.168.0.1
+                address 192.168.1.1
                 port 22
             }
             log disable
@@ -159,7 +159,7 @@ firewall {
             action accept
             description "Port Forward - Router HTTPS"
             destination {
-                address 192.168.0.1
+                address 192.168.1.1
                 port 443
             }
             log disable
