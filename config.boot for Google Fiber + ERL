@@ -61,7 +61,7 @@ firewall {
             }
         }
     }
-        ipv6-name WAN6_OUT {
+    ipv6-name WAN6_OUT {
         default-action accept
         rule 10 {
             action accept
@@ -117,7 +117,7 @@ firewall {
             }
         }
     }
-        name WAN_LOCAL {
+    name WAN_LOCAL {
         default-action drop
         description "WAN to Router"
         enable-default-log
@@ -144,6 +144,28 @@ firewall {
             description "Allow ICMP"
             log disable
             protocol icmp
+        }
+        rule 40 {
+            action accept
+            description "Port Forward - Router SSH"
+            destination {
+                address 192.168.0.1
+                port 22
+            }
+            log disable
+            protocol tcp
+        }
+        rule 50 {
+            action accept
+            description "Port Forward - Router HTTPS"
+            destination {
+                address 192.168.0.1
+                port 443
+            }
+            log disable
+            protocol tcp
+            source {
+            }
         }
     }
     name WAN_OUT {
@@ -234,6 +256,10 @@ interfaces {
                     ipv6-name WAN6_LOCAL
                     name WAN_LOCAL
                 }
+                out {
+                    ipv6-name WAN6_OUT
+                    name WAN_OUT
+                }
             }
         }
     }
@@ -255,6 +281,24 @@ port-forward {
     auto-firewall enable
     hairpin-nat enable
     lan-interface eth0
+    rule 10 {
+        description "Router SSH"
+        forward-to {
+            address 192.168.1.1
+            port 22
+        }
+        original-port 2222
+        protocol tcp_udp
+    }
+    rule 20 {
+        description "Router HTTPS"
+        forward-to {
+            address 192.168.1.1
+            port 443
+        }
+        original-port 8080
+        protocol tcp_udp
+    }
     wan-interface eth1.2
 }
 service {
@@ -267,7 +311,7 @@ service {
                 default-router 10.0.0.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
-                domain-name guest.example.org
+                domain-name guest.example.com
                 lease 86400
                 start 10.0.0.10 {
                     stop 10.0.0.199
@@ -281,7 +325,7 @@ service {
                 dns-server 192.168.1.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
-                domain-name example.org
+                domain-name example.com
                 lease 86400
                 start 192.168.1.101 {
                     stop 192.168.1.254
@@ -304,7 +348,7 @@ service {
     }
     dns {
         forwarding {
-            cache-size 1000
+            cache-size 500
             listen-on eth0
             name-server 2001:4860:4860::8888
             name-server 2001:4860:4860::8844
@@ -333,7 +377,7 @@ service {
     upnp2 {
         listen-on eth0
         nat-pmp disable
-        secure-mode disable
+        secure-mode enable
         wan eth1.2
     }
 }
