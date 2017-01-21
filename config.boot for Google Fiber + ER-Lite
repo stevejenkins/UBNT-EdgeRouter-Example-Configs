@@ -164,8 +164,6 @@ firewall {
             }
             log disable
             protocol tcp
-            source {
-            }
         }
     }
     name WAN_OUT {
