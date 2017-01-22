@@ -162,8 +162,124 @@ firewall {
                 address 192.168.1.1
                 port 443
             }
+    name WAN_IN {
+        default-action drop
+        description "WAN to LAN"
+        enable-default-log
+        rule 10 {
+            action accept
+            description "Allow Multicast"
+            destination {
+                address 224.0.0.0/4
+            }
+            log disable
+        }
+        rule 20 {
+            action accept
+            description "Allow established/related"
+            log disable
+            state {
+                established enable
+                invalid disable
+                new disable
+                related enable
+            }
+        }
+        rule 30 {
+            action accept
+            description "Allow UDP to Multicast"
+            destination {
+                address 224.0.0.0/4
+            }
+            log disable
+            protocol udp
+            state {
+                invalid enable
+                new enable
+            }
+        }
+        rule 40 {
+            action accept
+            description "Allow ICMP"
+            log disable
+            protocol icmp
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 50 {
+            action accept
+            description "Allow IGMP"
+            log disable
+            protocol igmp
+        }
+        rule 100 {
+            action drop
+            description "Drop invalid state"
+            log disable
+            protocol all
+            state {
+                established disable
+                invalid enable
+                new disable
+                related disable
+            }
+        }
+    }
+    name WAN_LOCAL {
+        default-action drop
+        description "WAN to Router"
+        enable-default-log
+        rule 10 {
+            action accept
+            description "Allow established/related"
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 20 {
+            action accept
+            description "Port Forward - Router SSH"
+            destination {
+                address 192.168.1.1
+                port 22
+            }
             log disable
             protocol tcp
+            time {
+            }
+        }
+        rule 30 {
+            action accept
+            description "Port Forward - Router HTTPS"
+            destination {
+                address 192.168.1.1
+                port 443
+            }
+            log disable
+            protocol tcp
+        }
+        rule 40 {
+            action accept
+            description "Allow Multicast"
+            destination {
+                address 224.0.0.0/4
+            }
+            log disable
+        }
+        rule 100 {
+            action drop
+            description "Drop invalid state"
+            log enable
+            protocol all
+            state {
+                established disable
+                invalid enable
+                new disable
+                related disable
+            }
         }
     }
     name WAN_OUT {
@@ -298,6 +414,20 @@ port-forward {
         protocol tcp_udp
     }
     wan-interface eth1.2
+}
+protocols {
+    igmp-proxy {
+        interface eth0 {
+            alt-subnet 192.168.1.1/24
+            role downstream
+            threshold 1
+        }
+        interface eth1.2 {
+            alt-subnet 10.0.0.0/8
+            role upstream
+            threshold 1
+        }
+    }
 }
 service {
     dhcp-server {
