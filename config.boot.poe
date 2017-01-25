@@ -317,36 +317,22 @@ interfaces {
         poe {
               output off
         }
-        firewall {
-            in {
-                name LAN_IN
-            }
-        }
-    }
+        speed auto
+     }
     ethernet eth3 {
         description "LAN"
         duplex auto
         poe {
               output off
         }
-        firewall {
-            in {
-                name LAN_IN
-            }
-        }
+        speed auto
     }
     ethernet eth4 {
         description "LAN"
         duplex auto
         poe {
               output off
-        }
-        firewall {
-            in {
-                name LAN_IN
-            }
-        }
-       
+        }       
         speed auto
     }
     loopback lo {
@@ -354,6 +340,11 @@ interfaces {
     switch switch0 {
         address 192.168.1.1/24
         description "LAN Switch"
+        firewall {
+            in {
+                name LAN_IN
+            }
+        }
         mtu 1500
         switch-port {
             interface eth2 {
