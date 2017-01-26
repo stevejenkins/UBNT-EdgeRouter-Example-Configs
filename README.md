@@ -3,6 +3,9 @@
 These files are example **config.boot** configuration files that can be be loaded on a factory-default Ubiquiti EdgeRouter
 Lite (ERLite-3) or EdgeRouter POE (ERPOE-5) to replace the Google Fiber Network Box.
 
+- **config.boot.erl** - Configuration file for EdgeRouter Lite
+- **config.boot.poe** - Configuration file for EdgeRouter POE
+
 A walk-thru for using these files is located here:
 
 https://www.stevejenkins.com/blog/2015/11/replace-your-google-fiber-network-box-with-a-ubiquiti-edgerouter-lite/
