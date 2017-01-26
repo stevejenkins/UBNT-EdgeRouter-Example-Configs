@@ -275,17 +275,17 @@ interfaces {
             description "Google Fiber WAN"
             dhcpv6-pd {
                 pd 0 {
-                    interface eth0 {
+                    interface switch0 {
                         host-address ::1
                         prefix-id :0
                         service slaac
                     }
-                    interface eth0.102 {
+                    interface switch0.102 {
                         host-address ::1
                         prefix-id :1
                         service slaac
                     }
-                    interface eth2 {
+                    interface eth0 {
                         host-address ::1
                         prefix-id :2
                         service slaac
