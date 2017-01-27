@@ -242,7 +242,7 @@ interfaces {
                     host-address ::1
                     service slaac
                 }
-                prefix-length /64
+                prefix-length /60
             }
             rapid-commit enable
         duplex auto
