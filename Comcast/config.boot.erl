@@ -232,17 +232,17 @@ interfaces {
             pd 0 {
                 interface eth1 {
                     host-address ::1
-                    prefix-id ::0
+                    prefix-id :0
                     service slaac
                 }
                 interface eth1.102 {
                     host-address ::1
-                    prefix-id ::1
+                    prefix-id :1
                     service slaac
                 }
                 interface eth2 {
                     host-address ::1
-                    prefix-id ::2
+                    prefix-id :2
                     service slaac
                 }
                 prefix-length /60
