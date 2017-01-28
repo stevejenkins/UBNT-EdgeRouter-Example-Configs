@@ -49,9 +49,11 @@ Now you’re ready to copy your new `config.boot` file over the EdgeRouter’s d
 
 You can apply the new `config.boot` file by rebooting the router with the `reboot` command, or with:
 
-    load
-    commit
-    save
+    $ configure
+    # load
+    # commit
+    # save
+    # exit
     
 # Comcast IPv6 Considerations
 
