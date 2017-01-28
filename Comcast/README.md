@@ -63,8 +63,8 @@ length of `/56`.
 
 If you edit the IPv6 settings in your `config.boot` and want to apply them immediately, do:
 
-    release dhcpv6-pd interface eth0
-    delete dhcpv6-pd duid 
-    renew dhcpv6-pd interface eth0
+    $ release dhcpv6-pd interface eth0
+    $ delete dhcpv6-pd duid 
+    $ renew dhcpv6-pd interface eth0
 
 Change `eth0` as needed to match your configuration's WAN interface.
