@@ -9,12 +9,12 @@ Lite (ERLite-3) or EdgeRouter POE (ERPOE-5) to enable dual-stack IPv4 & IPv6 net
 # Configuration Options
 The default port/interface settings for each version of the example Comcast `config.boot` files are:
 
-Comcast ###config.boot.erl####
+###Comcast config.boot.erl####
 - `eth0` = WAN
 - `eth1` = LAN
 - `eth2` = Local Config Port
 
-Comcast ###config.boot.poe####
+###Comcast config.boot.poe####
 - `eth0` = WAN
 - `eth1` = Local Config Port
 - `eth2`, `eth3`, `eth4` = LAN (combined as `switch0`)
