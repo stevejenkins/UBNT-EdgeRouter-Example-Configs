@@ -53,19 +53,21 @@ Now you’re ready to copy your new `config.boot` file over the EdgeRouter’s d
 
 You can apply the new `config.boot` file by rebooting the router with the `reboot` command, or with:
 
-    load
-    commit
-    save
-    
+    $ configure
+    # load
+    # commit
+    # save
+    # exit
+
 # Google Fiber IPv6 Considerations
 Based on the most recent IPv6 information from Google, residential customers should be requesting IPv6 addressing
 with a prefix length of `/56` (which is what is used in these examples).
 
 If you edit the IPv6 settings in your `config.boot` and want to apply them immediately, do:
 
-    release dhcpv6-pd interface eth0
-    delete dhcpv6-pd duid 
-    renew dhcpv6-pd interface eth0
+    $ release dhcpv6-pd interface eth0
+    $ delete dhcpv6-pd duid 
+    $ renew dhcpv6-pd interface eth0
 
 Change `eth0` as needed to match your configuration's WAN interface.
 
