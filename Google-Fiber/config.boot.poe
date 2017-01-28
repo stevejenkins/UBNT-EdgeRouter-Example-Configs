@@ -94,7 +94,7 @@ firewall {
                 invalid enable
             }
         }
-    } 
+    }
     name WAN_IN {
         default-action drop
         description "WAN to LAN"
