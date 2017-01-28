@@ -443,7 +443,7 @@ system {
             components main
             distribution wheezy
             password ""
-            url http://http.us.debian.org/debian
+            url http://ftp.us.debian.org/debian
             username ""
         }
         repository wheezy {
