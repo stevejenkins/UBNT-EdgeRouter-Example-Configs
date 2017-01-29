@@ -409,7 +409,7 @@ service {
     }
     dns {
         forwarding {
-            cache-size 1000
+            cache-size 500
             listen-on eth0
             name-server 2001:4860:4860::8888
             name-server 2001:4860:4860::8844
