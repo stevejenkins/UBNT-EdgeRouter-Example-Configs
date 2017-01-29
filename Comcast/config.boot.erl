@@ -283,7 +283,7 @@ interfaces {
         }
     }
     ethernet eth2 {
-        address 192.168.2.1/24
+        address 192.168.99.1/24
         description "Local Config"
         duplex auto
         firewall {
@@ -353,13 +353,13 @@ service {
         }
         shared-network-name LAN2 {
             authoritative disable
-            subnet 192.168.2.0/24 {
-                default-router 192.168.2.1
+            subnet 192.168.99.0/24 {
+                default-router 192.168.99.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
                 lease 86400
-                start 192.168.2.101 {
-                    stop 192.168.2.255
+                start 192.168.99.101 {
+                    stop 192.168.99.255
                 }
             }
         }
