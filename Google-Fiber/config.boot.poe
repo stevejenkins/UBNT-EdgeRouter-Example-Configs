@@ -250,7 +250,7 @@ firewall {
 }
 interfaces {
     ethernet eth0 {
-        address 192.168.2.1/24
+        address 192.168.99.1/24
         description "Local Config Port"
         duplex auto
         firewall {
@@ -413,7 +413,7 @@ service {
                 domain-name guest.example.com
                 lease 86400
                 start 10.0.0.10 {
-                    stop 10.0.0.199
+                    stop 10.0.0.254
                 }
             }
         }
@@ -433,13 +433,13 @@ service {
         }
         shared-network-name LAN2 {
             authoritative disable
-            subnet 192.168.2.0/24 {
-                default-router 192.168.2.1
+            subnet 192.168.99.0/24 {
+                default-router 192.168.99.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
                 lease 86400
-                start 192.168.2.101 {
-                    stop 192.168.2.255
+                start 192.168.99.101 {
+                    stop 192.168.99.255
                 }
             }
         }
@@ -447,7 +447,7 @@ service {
     }
     dns {
         forwarding {
-            cache-size 500
+            cache-size 1000
             listen-on switch0
             name-server 2001:4860:4860::8888
             name-server 2001:4860:4860::8844
