@@ -260,7 +260,7 @@ interfaces {
         }
         speed auto
         vif 102 {
-            address 10.0.0.1/24
+            address 172.16.0.1/24
             description "Guest Network VLAN"
             mtu 1500
         }
@@ -368,14 +368,14 @@ service {
         hostfile-update enable
         shared-network-name Guest {
             authoritative disable
-            subnet 10.0.0.0/24 {
-                default-router 10.0.0.1
+            subnet 172.16.0.0/24 {
+                default-router 172.16.0.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
                 domain-name guest.example.com
                 lease 86400
-                start 10.0.0.10 {
-                    stop 10.0.0.199
+                start 172.16.0.10 {
+                    stop 172.16.0.254
                 }
             }
         }
@@ -401,7 +401,7 @@ service {
                 dns-server 8.8.4.4
                 lease 86400
                 start 192.168.99.101 {
-                    stop 192.168.99.255
+                    stop 192.168.99.254
                 }
             }
         }
