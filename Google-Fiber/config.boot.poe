@@ -439,7 +439,7 @@ service {
                 dns-server 8.8.4.4
                 lease 86400
                 start 192.168.99.101 {
-                    stop 192.168.99.255
+                    stop 192.168.99.254
                 }
             }
         }
