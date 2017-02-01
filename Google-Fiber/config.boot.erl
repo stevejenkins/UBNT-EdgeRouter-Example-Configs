@@ -6,6 +6,7 @@ firewall {
         rule 10 {
             action accept
             description "Allow established/related"
+            log disable
             state {
                 established enable
                 related enable
@@ -14,6 +15,7 @@ firewall {
         rule 20 {
             action drop
             description "Drop invalid state"
+            log disable
             state {
                 invalid enable
             }
@@ -30,6 +32,7 @@ firewall {
         rule 10 {
             action accept
             description "Allow established/related"
+            log disable
             state {
                 established enable
                 related enable
@@ -38,6 +41,7 @@ firewall {
         rule 20 {
             action drop
             description "Drop invalid state"
+            log disable
             state {
                 invalid enable
             }
@@ -47,6 +51,7 @@ firewall {
             description "Allow ICMPv6"
             icmpv6 {
             }
+            log disable
             protocol ipv6-icmp
         }
         rule 40 {
@@ -55,6 +60,7 @@ firewall {
             destination {
                 port 546
             }
+            log disable
             protocol udp
             source {
                 port 547
@@ -66,6 +72,7 @@ firewall {
         rule 10 {
             action accept
             description "Allow established/related"
+            log disable
             state {
                 established enable
                 related enable
@@ -74,6 +81,7 @@ firewall {
         rule 20 {
             action reject
             description "Reject invalid state"
+            log disable
             state {
                 invalid enable
             }
@@ -90,6 +98,7 @@ firewall {
         rule 10 {
             action drop
             description "drop invalid state"
+            log disable
             state {
                 invalid enable
             }
@@ -167,6 +176,7 @@ firewall {
         rule 10 {
             action accept
             description "Allow established/related"
+            log disable
             state {
                 established enable
                 related enable
@@ -205,7 +215,7 @@ firewall {
         rule 100 {
             action drop
             description "Drop invalid state"
-            log enable
+            log disable
             protocol all
             state {
                 established disable
@@ -231,7 +241,7 @@ firewall {
         rule 20 {
             action reject
             description "Reject invalid state"
-            log enable
+            log disable
             state {
                 invalid enable
             }
