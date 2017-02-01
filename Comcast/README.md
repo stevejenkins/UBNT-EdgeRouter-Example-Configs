@@ -5,7 +5,7 @@ Lite (ERLite-3) or EdgeRouter POE (ERPOE-5) to enable dual-stack IPv4 & IPv6 net
 
 - `config.boot.erl` - Comcast configuration file for EdgeRouter Lite
 - `config.boot.poe` - Comcast configuration file for EdgeRouter POE
-- `config.gateway.json` - Customization file for use with UniFi Security Gateway (runs EdgeOS)
+- `config.gateway.json` - JSON-formatted file for UniFi Security Gateway (runs EdgeOS)
 
 # Configuration Options
 The default port/interface settings for each version of the example Comcast `config.boot` files are:
