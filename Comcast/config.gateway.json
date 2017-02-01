@@ -1,0 +1,142 @@
+{
+    "firewall": {
+        "ipv6-name": {
+            "WAN6_IN": {
+                "default-action": "drop", 
+                "rule": {
+                    "10": {
+                        "action": "accept", 
+                        "description": "allow established", 
+                        "protocol": "all", 
+                        "state": {
+                            "established": "enable", 
+                            "related": "enable"
+                        }
+                    }, 
+                    "20": {
+                        "action": "drop", 
+                        "description": "drop invalid packets", 
+                        "protocol": "all", 
+                        "state": {
+                            "invalid": "enable"
+                        }
+                    }, 
+                    "30": {
+                        "action": "accept", 
+                        "description": "allow ICMPv6", 
+                        "protocol": "icmpv6"
+                    }
+                }
+            }, 
+            "WAN6_LOCAL": {
+                "default-action": "drop", 
+                "rule": {
+                    "10": {
+                        "action": "accept", 
+                        "description": "allow established", 
+                        "protocol": "all", 
+                        "state": {
+                            "established": "enable", 
+                            "related": "enable"
+                        }
+                    }, 
+                    "20": {
+                        "action": "drop", 
+                        "description": "drop invalid packets", 
+                        "protocol": "all", 
+                        "state": {
+                            "invalid": "enable"
+                        }
+                    }, 
+                    "30": {
+                        "action": "accept", 
+                        "description": "allow ICMPv6", 
+                        "protocol": "icmpv6"
+                    }, 
+                    "40": {
+                        "action": "accept", 
+                        "description": "allow DHCPv6", 
+                        "destination": {
+                            "port": "546"
+                        }, 
+                        "protocol": "udp", 
+                        "source": {
+                            "port": "547"
+                        }
+                    }
+                }
+            }
+        }
+    }, 
+    "interfaces": {
+        "ethernet": {
+            "eth0": {
+                "dhcpv6-pd": {
+                    "pd": {
+                        "0": {
+                            "interface": {
+                                "eth1": {
+                                    "host-address": "::1", 
+                                    "prefix-id": ":0", 
+                                    "service": "slaac"
+                                }, 
+                                "eth1.102": {
+                                    "host-address": "::1", 
+                                    "prefix-id": ":1", 
+                                    "service": "slaac"
+                                }
+                            }, 
+                            "prefix-length": "/60"
+                        }
+                    }, 
+                    "rapid-commit": "enable"
+                }, 
+                "duplex": "auto", 
+                "firewall": {
+                    "in": {
+                        "ipv6-name": "WAN6_IN", 
+                        "name": "WAN_IN"
+                    }, 
+                    "local": {
+                        "ipv6-name": "WAN6_LOCAL", 
+                        "name": "WAN_LOCAL"
+                    }, 
+                    "out": {
+                        "name": "WAN_OUT"
+                    }
+                }, 
+                "speed": "auto"
+            }
+        }
+    }, 
+    "service": {
+        "upnp2": {
+            "listen-on": [
+                "eth1"
+            ], 
+            "nat-pmp": "enable", 
+            "secure-mode": "enable", 
+            "wan": "eth0"
+        }
+    }, 
+    "system": {
+        "package": {
+            "repository": {
+                "debian": {
+                    "components": "main", 
+                    "distribution": "wheezy", 
+                    "password": "", 
+                    "url": "http://ftp.us.debian.org/debian", 
+                    "username": ""
+                }, 
+                "wheezy": {
+                    "components": "main contrib non-free", 
+                    "distribution": "wheezy", 
+                    "password": "", 
+                    "url": "http://http.us.debian.org/debian", 
+                    "username": ""
+                }
+            }
+        }
+    }
+}
