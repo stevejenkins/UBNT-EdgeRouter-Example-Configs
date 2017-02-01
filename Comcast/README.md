@@ -5,6 +5,7 @@ Lite (ERLite-3) or EdgeRouter POE (ERPOE-5) to enable dual-stack IPv4 & IPv6 net
 
 - `config.boot.erl` - Comcast configuration file for EdgeRouter Lite
 - `config.boot.poe` - Comcast configuration file for EdgeRouter POE
+- `config.gateway.json` - Customization file for use with UniFi Security Gateway (runs EdgeOS)
 
 # Configuration Options
 The default port/interface settings for each version of the example Comcast `config.boot` files are:
@@ -19,9 +20,13 @@ The default port/interface settings for each version of the example Comcast `con
 - `eth1` = Local Config Port
 - `eth2`, `eth3`, `eth4` = LAN (combined as `switch0`)
 
+###Comcast config.gateway.json####
+- `eth0` = WAN
+- `eth1` = LAN
+
 You can edit the interfaces based on your specific needs.
 
-# Usage
+# EdgeRouter Usage
 Copy the raw contents of the appropriate `config.boot` file into your local clipboard.
 Then create a blank `config.boot` file in `/home/ubnt` with:
 
@@ -54,7 +59,14 @@ You can apply the new `config.boot` file by rebooting the router with the `reboo
     # commit
     # save
     # exit
-    
+
+# UniFi Security Gateway (USG) Usage
+Following the instructions in this guide to learn more about how to apply the settings in the included `config.gateway.json` file to a USG via the UniFi Controller:
+
+https://help.ubnt.com/hc/en-us/articles/215458888-UniFi-How-to-further-customize-USG-configuration-with-config-gateway-json
+
+Be extremely careful when creating or editing a `config.gateway.json` file, as including malformed configuration options in a `config.gateway.json` file can lead to a provisioning loop. This is considered an advanced configuration option.
+
 # Comcast IPv6 Considerations
 
 Based on the most recent [IPv6 information from Comcast](http://www.comcast6.net/), residential customers should be requesting IPv6 addressing
