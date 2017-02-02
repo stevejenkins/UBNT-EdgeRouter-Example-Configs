@@ -122,13 +122,6 @@
     "system": {
         "package": {
             "repository": {
-                "debian": {
-                    "components": "main", 
-                    "distribution": "wheezy", 
-                    "password": "", 
-                    "url": "http://ftp.us.debian.org/debian", 
-                    "username": ""
-                }, 
                 "wheezy": {
                     "components": "main contrib non-free", 
                     "distribution": "wheezy", 
