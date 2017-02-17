@@ -24,7 +24,7 @@ firewall {
             description "Allow ICMPv6"
             protocol icmpv6
         }
-   }
+    }
     ipv6-name WANv6_LOCAL {
         default-action drop
         description "WAN inbound traffic to the router"
@@ -214,19 +214,14 @@ interfaces {
             description "Google Fiber WAN"
             dhcpv6-pd {
                 pd 0 {
-                    interface eth1 {
+                    interface switch0 {
                         host-address ::1
                         prefix-id :0
                         service slaac
                     }
-                    interface eth2 {
+                    interface switch0.102 {
                         host-address ::1
                         prefix-id :1
-                        service slaac
-                    }
-                    interface eth2.102 {
-                        host-address ::1
-                        prefix-id :2
                         service slaac
                     }
                     prefix-length /56
@@ -251,39 +246,58 @@ interfaces {
         }
     }
     ethernet eth1 {
-        address 192.168.99.1/24
-        description "Local Config Port"
+        description LAN
         duplex auto
-        firewall {
-            in {
-                name LAN_IN
-            }
-        }
         speed auto
     }
     ethernet eth2 {
-        address 192.168.1.1/24
         description LAN
         duplex auto
+        speed auto
+    }
+    ethernet eth3 {
+        description LAN
+        duplex auto
+        speed auto
+    }
+    ethernet eth4 {
+        description LAN
+        duplex auto
+        speed auto
+    }
+    loopback lo {
+    }
+    switch switch0 {
+        address 192.168.1.1/24
+        description "LAN Switch"
         firewall {
             in {
                 name LAN_IN
             }
         }
-        speed auto
+        mtu 1500
+        switch-port {
+            interface eth1 {
+            }
+	    interface eth2 {
+            }
+            interface eth3 {
+            }
+            interface eth4 {
+            }
+            vlan-aware disable
+        }
         vif 102 {
             address 172.16.0.1/24
             description "Guest Network VLAN"
             mtu 1500
         }
     }
-    loopback lo {
-    }
 }
 port-forward {
     auto-firewall enable
     hairpin-nat enable
-    lan-interface eth2
+    lan-interface switch0
     rule 10 {
         description "Router SSH"
         forward-to {
@@ -335,24 +349,12 @@ service {
                 }
             }
         }
-        shared-network-name LAN2 {
-            authoritative disable
-            subnet 192.168.99.0/24 {
-                default-router 192.168.99.1
-                dns-server 8.8.8.8
-                dns-server 8.8.4.4
-                lease 86400
-                start 192.168.99.101 {
-                    stop 192.168.99.254
-                }
-            }
-        }
         use-dnsmasq disable
     }
     dns {
         forwarding {
             cache-size 500
-            listen-on eth2
+            listen-on switch0
             name-server 2001:4860:4860::8888
             name-server 2001:4860:4860::8844
             name-server 8.8.8.8
@@ -377,7 +379,7 @@ service {
         protocol-version v2
     }
     upnp2 {
-        listen-on eth2
+        listen-on switch0
         nat-pmp disable
         secure-mode enable
         wan eth0.2
@@ -410,16 +412,8 @@ system {
         }
     }
     offload {
-        hwnat disable
+        hwnat enable
         ipsec enable
-        ipv4 {
-            forwarding enable
-            vlan enable
-        }
-        ipv6 {
-            forwarding enable
-            vlan enable
-        }
     }
     package {
         repository wheezy {
@@ -450,4 +444,4 @@ system {
 
 /* Warning: Do not remove the following line. */
 /* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@5:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1" === */
-/* Release version: v1.9.1.4939093.161214.0705 */
+/* Release version: v1.9.1.4939092.161214.0702 */
