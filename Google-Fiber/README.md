@@ -16,7 +16,7 @@ The default port/interface settings for each version of the example Google Fiber
 - `eth2` = LAN
 
 ###Google Fiber config.boot.erx####
-- `eth0` = WAN (Google Fiber Jack)
+- `eth0` = WAN (Google Fiber Jack) - **powered 48v by default**
 - `eth1`, `eth2`, `eth3`, & `eth4` = LAN (combined as `switch0`)
 
 ###Google Fiber config.boot.poe####
