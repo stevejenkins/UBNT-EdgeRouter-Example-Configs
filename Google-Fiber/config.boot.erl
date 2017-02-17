@@ -1,10 +1,6 @@
 firewall {
     all-ping enable
     broadcast-ping disable
-    ipv6-receive-redirects disable
-    ipv6-src-route disable
-    ip-src-route disable
-    log-martians enable
     ipv6-name WANv6_IN {
         default-action drop
         description "WAN inbound traffic forwarded to LAN"
@@ -78,6 +74,11 @@ firewall {
             }
         }
     }
+    ipv6-receive-redirects disable
+    ipv6-src-route disable
+    ip-src-route disable
+    log-martians enable
+
     name LAN_IN {
         default-action accept
         description "LAN to Internal"
@@ -441,6 +442,7 @@ system {
         export enable
     }
 }
+
 
 /* Warning: Do not remove the following line. */
 /* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@5:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1" === */
