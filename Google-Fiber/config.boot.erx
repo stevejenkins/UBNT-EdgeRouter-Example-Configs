@@ -1,10 +1,6 @@
 firewall {
     all-ping enable
     broadcast-ping disable
-    ipv6-receive-redirects disable
-    ipv6-src-route disable
-    ip-src-route disable
-    log-martians enable
     ipv6-name WANv6_IN {
         default-action drop
         description "WAN inbound traffic forwarded to LAN"
@@ -78,6 +74,10 @@ firewall {
             }
         }
     }
+    ipv6-receive-redirects disable
+    ipv6-src-route disable
+    ip-src-route disable
+    log-martians enable
     name LAN_IN {
         default-action accept
         description "LAN to Internal"
@@ -94,13 +94,13 @@ firewall {
         description "WAN to internal"
         rule 10 {
             action accept
+            description "Allow established/related"
             state {
                 established enable
                 invalid disable
                 new disable
                 related enable
             }
-            description "Allow established/related"
         }
         rule 20 {
             action accept
@@ -127,7 +127,7 @@ firewall {
                 related disable
             }
         }
-    }  
+    }
     name WAN_LOCAL {
         default-action drop
         description "WAN to router"
@@ -168,7 +168,7 @@ firewall {
                 related disable
             }
         }
-    }   
+    }
     name WAN_OUT {
         default-action accept
         description "Internal to WAN"
@@ -251,14 +251,14 @@ interfaces {
         speed auto
     }
     ethernet eth3 {
-    	description LAN
+        description LAN
         duplex auto
         speed auto
     }
     ethernet eth4 {
         description LAN
-        speed auto
         duplex auto
+        speed auto
     }
     loopback lo {
     }
@@ -272,7 +272,9 @@ interfaces {
         }
         mtu 1500
         switch-port {
-            interface eth2 {
+            interface eth1 {
+            }
+			interface eth2 {
             }
             interface eth3 {
             }
@@ -405,16 +407,8 @@ system {
         }
     }
     offload {
-        hwnat disable
+        hwnat enable
         ipsec enable
-        ipv4 {
-            forwarding enable
-            vlan enable
-        }
-        ipv6 {
-            forwarding enable
-            vlan enable
-        }
     }
     package {
         repository wheezy {
@@ -424,7 +418,8 @@ system {
             url http://http.us.debian.org/debian
             username ""
         }
-    }    syslog {
+    }
+    syslog {
         global {
             facility all {
                 level notice
@@ -440,6 +435,7 @@ system {
         export enable
     }
 }
+
 
 /* Warning: Do not remove the following line. */
 /* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@5:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1" === */
