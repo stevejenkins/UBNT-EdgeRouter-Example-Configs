@@ -6,7 +6,6 @@ firewall {
         rule 10 {
             action accept
             description "Allow established/related"
-            log disable
             state {
                 established enable
                 related enable
@@ -15,7 +14,6 @@ firewall {
         rule 20 {
             action drop
             description "Drop invalid state"
-            log disable
             state {
                 invalid enable
             }
@@ -23,7 +21,6 @@ firewall {
         rule 30 {
             action accept
             description "Allow ICMPv6"
-            log disable
             protocol icmpv6
         }
     }
@@ -32,7 +29,6 @@ firewall {
         rule 10 {
             action accept
             description "Allow established/related"
-            log disable
             state {
                 established enable
                 related enable
@@ -41,7 +37,6 @@ firewall {
         rule 20 {
             action drop
             description "Drop invalid state"
-            log disable
             state {
                 invalid enable
             }
