@@ -1,12 +1,16 @@
 firewall {
     all-ping enable
     broadcast-ping disable
-    ipv6-name WAN6_IN {
+    ipv6-receive-redirects disable
+    ipv6-src-route disable
+    ip-src-route disable
+    log-martians enable
+    ipv6-name WANv6_IN {
         default-action drop
+        description "WAN inbound traffic forwarded to LAN"
         rule 10 {
             action accept
             description "Allow established/related"
-            log disable
             state {
                 established enable
                 related enable
@@ -15,24 +19,17 @@ firewall {
         rule 20 {
             action drop
             description "Drop invalid state"
-            log disable
             state {
                 invalid enable
             }
         }
-        rule 30 {
-            action accept
-            description "Allow ICMPv6"
-            log disable
-            protocol icmpv6
-        }
-    }
-    ipv6-name WAN6_LOCAL {
+   }
+    ipv6-name WANv6_LOCAL {
         default-action drop
+        description "WAN inbound traffic to the router"
         rule 10 {
             action accept
             description "Allow established/related"
-            log disable
             state {
                 established enable
                 related enable
@@ -41,17 +38,13 @@ firewall {
         rule 20 {
             action drop
             description "Drop invalid state"
-            log disable
             state {
                 invalid enable
             }
         }
         rule 30 {
             action accept
-            description "Allow ICMPv6"
-            icmpv6 {
-            }
-            log disable
+            description "Allow IPv6 icmp"
             protocol ipv6-icmp
         }
         rule 40 {
@@ -60,19 +53,18 @@ firewall {
             destination {
                 port 546
             }
-            log disable
             protocol udp
             source {
                 port 547
             }
         }
     }
-    ipv6-name WAN6_OUT {
+    ipv6-name WANv6_OUT {
         default-action accept
+        description "WAN outbound traffic"
         rule 10 {
             action accept
             description "Allow established/related"
-            log disable
             state {
                 established enable
                 related enable
@@ -81,24 +73,17 @@ firewall {
         rule 20 {
             action reject
             description "Reject invalid state"
-            log disable
             state {
                 invalid enable
             }
         }
     }
-    ipv6-receive-redirects disable
-    ipv6-src-route disable
-    ip-src-route disable
-    log-martians enable
     name LAN_IN {
         default-action accept
         description "LAN to Internal"
-        enable-default-log
         rule 10 {
             action drop
-            description "drop invalid state"
-            log disable
+            description "Drop invalid state"
             state {
                 invalid enable
             }
@@ -106,20 +91,10 @@ firewall {
     }
     name WAN_IN {
         default-action drop
-        description "WAN to LAN"
-        enable-default-log
+        description "WAN to internal"
         rule 10 {
             action accept
-            description "Allow Multicast"
-            destination {
-                address 224.0.0.0/4
-            }
-            log disable
-        }
-        rule 20 {
-            action accept
             description "Allow established/related"
-            log disable
             state {
                 established enable
                 invalid disable
@@ -127,39 +102,23 @@ firewall {
                 related enable
             }
         }
-        rule 30 {
-            action accept
-            description "Allow UDP to Multicast"
-            destination {
-                address 224.0.0.0/4
-            }
-            log disable
-            protocol udp
-            state {
-                invalid enable
-                new enable
-            }
-        }
-        rule 40 {
+        rule 20 {
             action accept
             description "Allow ICMP"
-            log disable
             protocol icmp
             state {
                 established enable
                 related enable
             }
         }
-        rule 50 {
+        rule 30 {
             action accept
             description "Allow IGMP"
-            log disable
             protocol igmp
         }
         rule 100 {
             action drop
             description "Drop invalid state"
-            log disable
             protocol all
             state {
                 established disable
@@ -171,12 +130,10 @@ firewall {
     }
     name WAN_LOCAL {
         default-action drop
-        description "WAN to Router"
-        enable-default-log
+        description "WAN to router"
         rule 10 {
             action accept
             description "Allow established/related"
-            log disable
             state {
                 established enable
                 related enable
@@ -189,10 +146,7 @@ firewall {
                 address 192.168.1.1
                 port 22
             }
-            log disable
             protocol tcp
-            time {
-            }
         }
         rule 30 {
             action accept
@@ -201,21 +155,11 @@ firewall {
                 address 192.168.1.1
                 port 443
             }
-            log disable
             protocol tcp
-        }
-        rule 40 {
-            action accept
-            description "Allow Multicast"
-            destination {
-                address 224.0.0.0/4
-            }
-            log disable
         }
         rule 100 {
             action drop
             description "Drop invalid state"
-            log disable
             protocol all
             state {
                 established disable
@@ -228,11 +172,9 @@ firewall {
     name WAN_OUT {
         default-action accept
         description "Internal to WAN"
-        enable-default-log
         rule 10 {
             action accept
             description "Allow established/related"
-            log disable
             state {
                 established enable
                 related enable
@@ -241,7 +183,6 @@ firewall {
         rule 20 {
             action reject
             description "Reject invalid state"
-            log disable
             state {
                 invalid enable
             }
@@ -285,36 +226,36 @@ interfaces {
             dhcpv6-pd {
                 pd 0 {
                     interface eth0 {
-                    host-address ::1
-                    prefix-id :0
-                    service slaac
+                        host-address ::1
+                        prefix-id :0
+                        service slaac
                     }
                     interface eth0.102 {
-                    host-address ::1
-                    prefix-id :1
-                    service slaac
+                        host-address ::1
+                        prefix-id :1
+                        service slaac
                     }
                     interface eth2 {
-                    host-address ::1
-                    prefix-id :2
-                    service slaac
+                        host-address ::1
+                        prefix-id :2
+                        service slaac
                     }
-                prefix-length /56
+                    prefix-length /56
                 }
-            rapid-commit enable
+                rapid-commit enable
             }
             egress-qos 0:3
             firewall {
                 in {
-                    ipv6-name WAN6_IN
+                    ipv6-name WANv6_IN
                     name WAN_IN
                 }
                 local {
-                    ipv6-name WAN6_LOCAL
+                    ipv6-name WANv6_LOCAL
                     name WAN_LOCAL
                 }
                 out {
-                    ipv6-name WAN6_OUT
+                    ipv6-name WANv6_OUT
                     name WAN_OUT
                 }
             }
@@ -357,20 +298,6 @@ port-forward {
         protocol tcp_udp
     }
     wan-interface eth1.2
-}
-protocols {
-    igmp-proxy {
-        interface eth0 {
-            alt-subnet 192.168.1.1/24
-            role downstream
-            threshold 1
-        }
-        interface eth1.2 {
-            alt-subnet 10.0.0.0/8
-            role upstream
-            threshold 1
-        }
-    }
 }
 service {
     dhcp-server {
@@ -435,7 +362,6 @@ service {
     nat {
         rule 5000 {
             description "Masquerade for WAN"
-            log disable
             outbound-interface eth1.2
             protocol all
             type masquerade
