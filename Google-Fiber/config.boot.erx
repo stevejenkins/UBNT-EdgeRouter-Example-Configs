@@ -218,8 +218,8 @@ interfaces {
                         host-address ::1
                         prefix-id :1
                         service slaac
-                   }
-                   prefix-length /56
+                    }
+                    prefix-length /56
                 }
                 rapid-commit enable
             }
@@ -347,7 +347,7 @@ service {
     dns {
         forwarding {
             cache-size 500
-            listen-on eth0
+            listen-on switch0
             name-server 2001:4860:4860::8888
             name-server 2001:4860:4860::8844
             name-server 8.8.8.8
