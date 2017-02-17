@@ -274,7 +274,7 @@ interfaces {
         switch-port {
             interface eth1 {
             }
-			interface eth2 {
+	    interface eth2 {
             }
             interface eth3 {
             }
