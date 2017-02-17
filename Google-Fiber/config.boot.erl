@@ -19,6 +19,11 @@ firewall {
                 invalid enable
             }
         }
+            rule 30 {
+            action accept
+            description "Allow ICMPv6"
+            protocol icmpv6
+        }
    }
     ipv6-name WANv6_LOCAL {
         default-action drop
@@ -78,7 +83,6 @@ firewall {
     ipv6-src-route disable
     ip-src-route disable
     log-martians enable
-
     name LAN_IN {
         default-action accept
         description "LAN to Internal"
@@ -202,22 +206,6 @@ firewall {
 }
 interfaces {
     ethernet eth0 {
-        address 192.168.1.1/24
-        description LAN
-        duplex auto
-        firewall {
-            in {
-                name LAN_IN
-            }
-        }
-        speed auto
-        vif 102 {
-            address 172.16.0.1/24
-            description "Guest Network VLAN"
-            mtu 1500
-        }
-    }
-    ethernet eth1 {
         description "Google Fiber Jack"
         duplex auto
         speed auto
@@ -226,17 +214,17 @@ interfaces {
             description "Google Fiber WAN"
             dhcpv6-pd {
                 pd 0 {
-                    interface eth0 {
+                    interface eth1 {
                         host-address ::1
                         prefix-id :0
                         service slaac
                     }
-                    interface eth0.102 {
+                    interface eth2 {
                         host-address ::1
                         prefix-id :1
                         service slaac
                     }
-                    interface eth2 {
+                    interface eth2.102 {
                         host-address ::1
                         prefix-id :2
                         service slaac
@@ -262,7 +250,7 @@ interfaces {
             }
         }
     }
-    ethernet eth2 {
+    ethernet eth1 {
         address 192.168.99.1/24
         description "Local Config Port"
         duplex auto
@@ -273,13 +261,29 @@ interfaces {
         }
         speed auto
     }
+    ethernet eth2 {
+        address 192.168.1.1/24
+        description LAN
+        duplex auto
+        firewall {
+            in {
+                name LAN_IN
+            }
+        }
+        speed auto
+        vif 102 {
+            address 172.16.0.1/24
+            description "Guest Network VLAN"
+            mtu 1500
+        }
+    }
     loopback lo {
     }
 }
 port-forward {
     auto-firewall enable
     hairpin-nat enable
-    lan-interface eth0
+    lan-interface eth2
     rule 10 {
         description "Router SSH"
         forward-to {
@@ -298,7 +302,7 @@ port-forward {
         original-port 8080
         protocol tcp_udp
     }
-    wan-interface eth1.2
+    wan-interface eth0.2
 }
 service {
     dhcp-server {
@@ -348,7 +352,7 @@ service {
     dns {
         forwarding {
             cache-size 500
-            listen-on eth0
+            listen-on eth2
             name-server 2001:4860:4860::8888
             name-server 2001:4860:4860::8844
             name-server 8.8.8.8
@@ -363,7 +367,7 @@ service {
     nat {
         rule 5000 {
             description "Masquerade for WAN"
-            outbound-interface eth1.2
+            outbound-interface eth0.2
             protocol all
             type masquerade
         }
@@ -373,10 +377,10 @@ service {
         protocol-version v2
     }
     upnp2 {
-        listen-on eth0
+        listen-on eth2
         nat-pmp disable
         secure-mode enable
-        wan eth1.2
+        wan eth0.2
     }
 }
 system {
