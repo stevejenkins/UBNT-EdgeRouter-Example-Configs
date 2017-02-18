@@ -48,7 +48,7 @@ firewall {
             action accept
             description "Allow ICMPv6"
             log disable
-            protocol ipv6-icmp
+            protocol icmpv6
         }
         rule 40 {
             action accept
