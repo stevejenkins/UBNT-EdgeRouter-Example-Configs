@@ -22,6 +22,7 @@ firewall {
             rule 30 {
             action accept
             description "Allow ICMPv6"
+            log disable
             protocol icmpv6
         }
    }
@@ -45,7 +46,8 @@ firewall {
         }
         rule 30 {
             action accept
-            description "Allow IPv6 icmp"
+            description "Allow ICMPv6"
+            log disable
             protocol ipv6-icmp
         }
         rule 40 {
@@ -99,7 +101,28 @@ firewall {
         description "WAN to internal"
         rule 10 {
             action accept
+            description "Allow Multicast"
+            destination {
+                address 224.0.0.0/4
+            }
+            log disable
+        }
+        rule 20 {
+            action accept
+            description "Allow UDP to Multicast"
+            destination {
+                address 224.0.0.0/4
+            }
+            log disable
+            protocol udp
+            state {
+                new enable
+            }
+        }
+        rule 30 {
+            action accept
             description "Allow established/related"
+            log disable
             state {
                 established enable
                 invalid disable
@@ -107,18 +130,20 @@ firewall {
                 related enable
             }
         }
-        rule 20 {
+        rule 40 {
             action accept
             description "Allow ICMP"
+            log disable
             protocol icmp
             state {
                 established enable
                 related enable
             }
         }
-        rule 30 {
+        rule 50 {
             action accept
             description "Allow IGMP"
+            log disable
             protocol igmp
         }
         rule 100 {
@@ -139,6 +164,7 @@ firewall {
         rule 10 {
             action accept
             description "Allow established/related"
+            log disable
             state {
                 established enable
                 related enable
@@ -162,6 +188,14 @@ firewall {
             }
             protocol tcp
         }
+        rule 40 {
+            action accept
+            description "Allow Multicast"
+            destination {
+                address 224.0.0.0/4
+            }
+            log disable
+        }
         rule 100 {
             action drop
             description "Drop invalid state"
@@ -180,6 +214,7 @@ firewall {
         rule 10 {
             action accept
             description "Allow established/related"
+            log disable
             state {
                 established enable
                 related enable
@@ -304,6 +339,20 @@ port-forward {
     }
     wan-interface eth0.2
 }
+protocols {
+    igmp-proxy {
+        interface eth0.2 {
+            alt-subnet 10.0.0.0/8
+            role upstream
+            threshold 1
+        }
+        interface eth2 {
+            alt-subnet 192.168.1.0/24
+            role downstream
+            threshold 1
+        }
+    }
+}
 service {
     dhcp-server {
         disabled false
@@ -335,7 +384,7 @@ service {
                 }
             }
         }
-        shared-network-name LAN2 {
+        shared-network-name Config {
             authoritative disable
             subnet 192.168.99.0/24 {
                 default-router 192.168.99.1
@@ -367,6 +416,7 @@ service {
     nat {
         rule 5000 {
             description "Masquerade for WAN"
+            log disable
             outbound-interface eth0.2
             protocol all
             type masquerade
@@ -442,7 +492,7 @@ system {
     }
     time-zone America/Denver
     traffic-analysis {
-        dpi enable
+        dpi disable
         export enable
     }
 }
