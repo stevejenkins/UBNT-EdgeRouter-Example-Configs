@@ -360,7 +360,7 @@ protocols {
             role upstream
             threshold 1
         }
-        interface eth2 {
+        interface switch0 {
             alt-subnet 192.168.1.0/24
             role downstream
             threshold 1
