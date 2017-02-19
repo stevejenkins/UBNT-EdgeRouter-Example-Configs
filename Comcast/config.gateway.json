@@ -1,7 +1,7 @@
 {
     "firewall": {
         "ipv6-name": {
-            "WAN6_IN": {
+            "WANv6_IN": {
                 "default-action": "drop", 
                 "rule": {
                     "10": {
@@ -28,7 +28,7 @@
                     }
                 }
             }, 
-            "WAN6_LOCAL": {
+            "WANv6_LOCAL": {
                 "default-action": "drop", 
                 "rule": {
                     "10": {
@@ -94,11 +94,11 @@
                 "duplex": "auto", 
                 "firewall": {
                     "in": {
-                        "ipv6-name": "WAN6_IN", 
+                        "ipv6-name": "WANv6_IN", 
                         "name": "WAN_IN"
                     }, 
                     "local": {
-                        "ipv6-name": "WAN6_LOCAL", 
+                        "ipv6-name": "WANv6_LOCAL", 
                         "name": "WAN_LOCAL"
                     }, 
                     "out": {
