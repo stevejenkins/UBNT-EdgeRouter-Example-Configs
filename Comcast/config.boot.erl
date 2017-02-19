@@ -1,10 +1,9 @@
 firewall {
     all-ping enable
     broadcast-ping disable
-    ipv6-name WAN6_IN {
+    ipv6-name WANv6_IN {
         default-action drop
-        description "WAN6 to LAN"
-        enable-default-log
+        description "WANv6 inbound traffic forwarded to LAN"
         rule 10 {
             action accept
             description "Allow established/related"
@@ -27,10 +26,9 @@ firewall {
             protocol icmpv6
         }
     }
-    ipv6-name WAN6_LOCAL {
+    ipv6-name WANv6_LOCAL {
         default-action drop
-        description "WAN6 to Router"
-        enable-default-log
+        description "WANv6 inbound traffic to the router"
         rule 10 {
             action accept
             description "Allow established/related"
@@ -49,9 +47,8 @@ firewall {
         rule 30 {
             action accept
             description "Allow ICMPv6"
-            icmpv6 {
-            }
-            protocol ipv6-icmp
+            log disable
+            protocol icmpv6
         }
         rule 40 {
             action accept
@@ -65,9 +62,9 @@ firewall {
             }
         }
     }
-    ipv6-name WAN6_OUT {
+    ipv6-name WANv6_OUT {
         default-action accept
-        description "LAN to WAN6"
+        description "WANv6 outbound traffic"
         rule 10 {
             action accept
             description "Allow established/related"
@@ -91,10 +88,9 @@ firewall {
     name LAN_IN {
         default-action accept
         description "LAN to Internal"
-        enable-default-log
         rule 10 {
             action drop
-            description "drop invalid state"
+            description "Drop invalid state"
             state {
                 invalid enable
             }
@@ -102,8 +98,7 @@ firewall {
     }
     name WAN_IN {
         default-action drop
-        description "WAN to LAN"
-        enable-default-log
+        description "WAN to internal"
         rule 10 {
             action accept
             description "Allow established/related"
@@ -125,16 +120,9 @@ firewall {
                 related enable
             }
         }
-        rule 30 {
-            action accept
-            description "Allow IGMP"
-            log disable
-            protocol igmp
-        }
         rule 100 {
             action drop
             description "Drop invalid state"
-            log disable
             protocol all
             state {
                 established disable
@@ -146,8 +134,7 @@ firewall {
     }
     name WAN_LOCAL {
         default-action drop
-        description "WAN to Router"
-        enable-default-log
+        description "WAN to router"
         rule 10 {
             action accept
             description "Allow established/related"
@@ -163,10 +150,7 @@ firewall {
                 address 192.168.1.1
                 port 22
             }
-            log disable
             protocol tcp
-            time {
-            }
         }
         rule 30 {
             action accept
@@ -175,13 +159,11 @@ firewall {
                 address 192.168.1.1
                 port 443
             }
-            log disable
             protocol tcp
         }
         rule 100 {
             action drop
             description "Drop invalid state"
-            log enable
             protocol all
             state {
                 established disable
@@ -193,8 +175,7 @@ firewall {
     }
     name WAN_OUT {
         default-action accept
-        description "LAN to WAN"
-        enable-default-log
+        description "Internal to WAN"
         rule 10 {
             action accept
             description "Allow established/related"
@@ -207,7 +188,6 @@ firewall {
         rule 20 {
             action reject
             description "Reject invalid state"
-            log enable
             state {
                 invalid enable
             }
@@ -251,21 +231,34 @@ interfaces {
         duplex auto
         firewall {
             in {
-                ipv6-name WAN6_IN
+                ipv6-name WANv6_IN
                 name WAN_IN
             }
             local {
-                ipv6-name WAN6_LOCAL
+                ipv6-name WANv6_LOCAL
                 name WAN_LOCAL
             }
             out {
-                ipv6-name WAN6_OUT
+                ipv6-name WANv6_OUT
                 name WAN_OUT
             }
         }
         speed auto
     }
     ethernet eth1 {
+        address 192.168.99.1/24
+        description "Local Config"
+        duplex auto
+        firewall {
+            in {
+                name LAN_IN
+            }
+        }
+        speed auto
+    }
+    loopback lo {
+    }
+    ethernet eth2 {
         address 192.168.1.1/24
         description LAN
         duplex auto
@@ -282,24 +275,11 @@ interfaces {
             mtu 1500
         }
     }
-    ethernet eth2 {
-        address 192.168.99.1/24
-        description "Local Config"
-        duplex auto
-        firewall {
-            in {
-                name LAN_IN
-            }
-        }
-        speed auto
-    }
-    loopback lo {
-    }
 }
 port-forward {
     auto-firewall enable
     hairpin-nat enable
-    lan-interface eth1
+    lan-interface eth2
     rule 10 {
         description "Router SSH"
         forward-to {
@@ -326,14 +306,14 @@ service {
         hostfile-update enable
         shared-network-name Guest {
             authoritative disable
-            subnet 10.0.0.0/24 {
-                default-router 10.0.0.1
+            subnet 172.16.0.0/24 {
+                default-router 172.16.0.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
                 domain-name guest.example.com
                 lease 86400
-                start 10.0.0.10 {
-                    stop 10.0.0.199
+                start 172.16.0.10 {
+                    stop 172.16.0.254
                 }
             }
         }
@@ -351,7 +331,7 @@ service {
                 }
             }
         }
-        shared-network-name LAN2 {
+        shared-network-name Config {
             authoritative disable
             subnet 192.168.99.0/24 {
                 default-router 192.168.99.1
@@ -368,7 +348,7 @@ service {
     dns {
         forwarding {
             cache-size 500
-            listen-on eth1
+            listen-on eth2
             name-server 2001:4860:4860::8888
             name-server 2001:4860:4860::8844
             name-server 8.8.8.8
@@ -384,7 +364,7 @@ service {
         rule 5000 {
             description "Masquerade for WAN"
             log disable
-            outbound-interface eth1.2
+            outbound-interface eth0
             protocol all
             type masquerade
         }
@@ -394,7 +374,7 @@ service {
         protocol-version v2
     }
     upnp2 {
-        listen-on eth1
+        listen-on eth2
         nat-pmp disable
         secure-mode enable
         wan eth0
