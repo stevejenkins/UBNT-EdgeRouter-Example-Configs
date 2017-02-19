@@ -4,29 +4,30 @@ These files are example `config.boot` configuration files that can be be loaded 
 Lite (ERLite-3) or EdgeRouter POE (ERPOE-5) to enable dual-stack IPv4 & IPv6 networking on residential Comcast networks.
 
 - `config.boot.erl` - Comcast configuration file for EdgeRouter Lite
+- `config.boot.erx` - Comcast configuration file for EdgeRouter X
 - `config.boot.poe` - Comcast configuration file for EdgeRouter POE
 - `config.gateway.json` - JSON-formatted file for UniFi Security Gateway (runs EdgeOS)
 
-# Configuration Options
-The default port/interface settings for each version of the example Comcast `config.boot` files are:
+# Port Settings
+The default port/interface settings for each version of the example Google Fiber `config.boot` files are:
 
 ###Comcast config.boot.erl####
-- `eth0` = WAN
-- `eth1` = LAN
-- `eth2` = Local Config Port
+- `eth0` = WAN (Cable Modem)
+- `eth1` = Local Config Port
+- `eth2` = LAN
+
+###Comcast Fiber config.boot.erx####
+- `eth0` = WAN (Cable Modem)
+- `eth1`, `eth2`, `eth3`, & `eth4` = LAN (combined as `switch0`)
 
 ###Comcast config.boot.poe####
-- `eth0` = WAN
+- `eth0` = WAN (Cable Modem)
 - `eth1` = Local Config Port
 - `eth2`, `eth3`, `eth4` = LAN (combined as `switch0`)
 
-###Comcast config.gateway.json####
-- `eth0` = WAN
-- `eth1` = LAN
+For all the files, `eth0` is always the **WAN** interface and `eth2` is always a valid **LAN** port to use during testing.
 
-You can edit the interfaces based on your specific needs.
-
-# EdgeRouter Usage
+# Usage
 Copy the raw contents of the appropriate `config.boot` file into your local clipboard.
 Then create a blank `config.boot` file in `/home/ubnt` with:
 
