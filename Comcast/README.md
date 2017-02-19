@@ -25,6 +25,10 @@ The default port/interface settings for each version of the example Google Fiber
 - `eth1` = Local Config Port
 - `eth2`, `eth3`, `eth4` = LAN (combined as `switch0`)
 
+###Comcast config.gateway.json####
+- `eth0` = WAN (Cable Modem)
+- `eth2` = LAN
+
 For all the files, `eth0` is always the **WAN** interface and `eth2` is always a valid **LAN** port to use during testing.
 
 # Usage
