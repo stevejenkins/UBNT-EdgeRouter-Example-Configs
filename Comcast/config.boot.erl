@@ -270,7 +270,7 @@ interfaces {
         mtu 1500
         speed auto
         vif 102 {
-            address 10.0.0.1/24
+            address 172.16.0.1/24
             description "Guest Network VLAN"
             mtu 1500
         }
