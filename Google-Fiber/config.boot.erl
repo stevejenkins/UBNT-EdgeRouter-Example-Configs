@@ -1,3 +1,5 @@
+/* EdgeRouter Lite + Google Fiber IPv4/IPv6 Config */
+/* https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
 firewall {
     all-ping enable
     broadcast-ping disable
