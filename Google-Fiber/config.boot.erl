@@ -462,7 +462,7 @@ system {
         }
     }
     offload {
-        hwnat disable
+        hwnat enable
         ipsec enable
         ipv4 {
             forwarding enable
