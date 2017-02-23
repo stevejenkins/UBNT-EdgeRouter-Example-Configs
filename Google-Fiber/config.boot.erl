@@ -8,27 +8,47 @@ firewall {
         description "WAN inbound traffic forwarded to LAN"
         rule 10 {
             action accept
+            description "Allow Multicast"
+            destination {
+                address ff02::1
+            }
+            log disable
+        }
+        rule 20 {
+            action accept
+            description "Allow UDP Multicast"
+            destination {
+                address ff02::1
+            }
+            log disable
+            protocol udp
+            state {
+                new enable
+            }
+        }            
+        rule 30 {
+            action accept
             description "Allow established/related"
             state {
                 established enable
                 related enable
             }
         }
-        rule 20 {
+        rule 40 {
             action drop
             description "Drop invalid state"
             state {
                 invalid enable
             }
         }
-            rule 30 {
+        rule 50 {
             action accept
             description "Allow ICMPv6"
             log disable
             protocol icmpv6
         }
    }
-    ipv6-name WANv6_LOCAL {
+   ipv6-name WANv6_LOCAL {
         default-action drop
         description "WAN inbound traffic to the router"
         rule 10 {
@@ -103,7 +123,7 @@ firewall {
         description "WAN to internal"
         rule 10 {
             action accept
-            description "Allow Multicast"
+            description "Allow Multicast 224"
             destination {
                 address 224.0.0.0/4
             }
@@ -111,7 +131,15 @@ firewall {
         }
         rule 20 {
             action accept
-            description "Allow UDP to Multicast"
+            description "Allow Multicast 225"
+            destination {
+                address 225.0.0.0/4
+            }
+            log disable
+        }
+        rule 30 {
+            action accept
+            description "Allow UDP to Multicast 224"
             destination {
                 address 224.0.0.0/4
             }
@@ -121,7 +149,19 @@ firewall {
                 new enable
             }
         }
-        rule 30 {
+        rule 40 {
+            action accept
+            description "Allow UDP to Multicast 225"
+            destination {
+                address 225.0.0.0/4
+            }
+            log disable
+            protocol udp
+            state {
+                new enable
+            }
+        }
+        rule 50 {
             action accept
             description "Allow established/related"
             log disable
@@ -132,7 +172,7 @@ firewall {
                 related enable
             }
         }
-        rule 40 {
+        rule 60 {
             action accept
             description "Allow ICMP"
             log disable
@@ -142,7 +182,7 @@ firewall {
                 related enable
             }
         }
-        rule 50 {
+        rule 70 {
             action accept
             description "Allow IGMP"
             log disable
@@ -176,7 +216,7 @@ firewall {
             action accept
             description "Port Forward - Router SSH"
             destination {
-                address 192.168.1.1
+                address 192.168.0.1
                 port 22
             }
             protocol tcp
@@ -185,7 +225,7 @@ firewall {
             action accept
             description "Port Forward - Router HTTPS"
             destination {
-                address 192.168.1.1
+                address 192.168.0.1
                 port 443
             }
             protocol tcp
@@ -299,7 +339,7 @@ interfaces {
         speed auto
     }
     ethernet eth2 {
-        address 192.168.1.1/24
+        address 192.168.0.1/24
         description LAN
         duplex auto
         firewall {
@@ -324,7 +364,7 @@ port-forward {
     rule 10 {
         description "Router SSH"
         forward-to {
-            address 192.168.1.1
+            address 192.168.0.1
             port 22
         }
         original-port 2222
@@ -333,7 +373,7 @@ port-forward {
     rule 20 {
         description "Router HTTPS"
         forward-to {
-            address 192.168.1.1
+            address 192.168.0.1
             port 443
         }
         original-port 8080
@@ -349,7 +389,7 @@ protocols {
             threshold 1
         }
         interface eth2 {
-            alt-subnet 192.168.1.0/24
+            alt-subnet 192.168.0.0/24
             role downstream
             threshold 1
         }
@@ -374,15 +414,15 @@ service {
         }
         shared-network-name LAN {
             authoritative disable
-            subnet 192.168.1.0/24 {
-                default-router 192.168.1.1
-                dns-server 192.168.1.1
+            subnet 192.168.0.0/24 {
+                default-router 192.168.0.1
+                dns-server 192.168.0.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
                 domain-name example.com
                 lease 86400
-                start 192.168.1.101 {
-                    stop 192.168.1.254
+                start 192.168.0.101 {
+                    stop 192.168.0.254
                 }
             }
         }
