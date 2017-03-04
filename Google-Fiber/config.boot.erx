@@ -339,7 +339,7 @@ interfaces {
     loopback lo {
     }
     switch switch0 {
-        address 192.168.1.1/24
+        address 192.168.0.1/24
         description "LAN Switch"
         firewall {
             in {
@@ -372,7 +372,7 @@ port-forward {
     rule 10 {
         description "Router SSH"
         forward-to {
-            address 192.168.1.1
+            address 192.168.0.1
             port 22
         }
         original-port 2222
@@ -381,7 +381,7 @@ port-forward {
     rule 20 {
         description "Router HTTPS"
         forward-to {
-            address 192.168.1.1
+            address 192.168.0.1
             port 443
         }
         original-port 8080
@@ -397,7 +397,7 @@ protocols {
             threshold 1
         }
         interface switch0 {
-            alt-subnet 192.168.1.0/24
+            alt-subnet 192.168.0.0/24
             role downstream
             threshold 1
         }
@@ -422,15 +422,15 @@ service {
         }
         shared-network-name LAN {
             authoritative disable
-            subnet 192.168.1.0/24 {
-                default-router 192.168.1.1
-                dns-server 192.168.1.1
+            subnet 192.168.0.0/24 {
+                default-router 192.168.0.1
+                dns-server 192.168.0.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
                 domain-name example.com
                 lease 86400
-                start 192.168.1.101 {
-                    stop 192.168.1.254
+                start 192.168.0.101 {
+                    stop 192.168.0.254
                 }
             }
         }
