@@ -1,4 +1,4 @@
-/* EdgeRouter X + Google Fiber IPv4/IPv6 Config */
+/* EdgeRouter X + Google Fiber (including Google TV) IPv4/IPv6 Dual Stack Config */
 /* https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
 firewall {
     all-ping enable
@@ -21,14 +21,14 @@ firewall {
                 invalid enable
             }
         }
-            rule 30 {
+        rule 30 {
             action accept
             description "Allow ICMPv6"
             log disable
             protocol icmpv6
         }
    }
-    ipv6-name WANv6_LOCAL {
+   ipv6-name WANv6_LOCAL {
         default-action drop
         description "WAN inbound traffic to the router"
         rule 10 {
@@ -103,7 +103,7 @@ firewall {
         description "WAN to internal"
         rule 10 {
             action accept
-            description "Allow Multicast"
+            description "Allow Multicast 224"
             destination {
                 address 224.0.0.0/4
             }
@@ -111,7 +111,15 @@ firewall {
         }
         rule 20 {
             action accept
-            description "Allow UDP to Multicast"
+            description "Allow Multicast 225"
+            destination {
+                address 225.0.0.0/4
+            }
+            log disable
+        }
+        rule 30 {
+            action accept
+            description "Allow UDP to Multicast 224"
             destination {
                 address 224.0.0.0/4
             }
@@ -121,7 +129,19 @@ firewall {
                 new enable
             }
         }
-        rule 30 {
+        rule 40 {
+            action accept
+            description "Allow UDP to Multicast 225"
+            destination {
+                address 225.0.0.0/4
+            }
+            log disable
+            protocol udp
+            state {
+                new enable
+            }
+        }
+        rule 50 {
             action accept
             description "Allow established/related"
             log disable
@@ -132,7 +152,7 @@ firewall {
                 related enable
             }
         }
-        rule 40 {
+        rule 60 {
             action accept
             description "Allow ICMP"
             log disable
@@ -142,7 +162,7 @@ firewall {
                 related enable
             }
         }
-        rule 50 {
+        rule 70 {
             action accept
             description "Allow IGMP"
             log disable
@@ -176,7 +196,7 @@ firewall {
             action accept
             description "Port Forward - Router SSH"
             destination {
-                address 192.168.1.1
+                address 192.168.0.1
                 port 22
             }
             protocol tcp
@@ -185,18 +205,32 @@ firewall {
             action accept
             description "Port Forward - Router HTTPS"
             destination {
-                address 192.168.1.1
+                address 192.168.0.1
                 port 443
             }
             protocol tcp
         }
         rule 40 {
             action accept
-            description "Allow Multicast"
+            description "Allow Multicast 224"
             destination {
                 address 224.0.0.0/4
             }
             log disable
+        }
+        rule 50 {
+            action accept
+            description "Allow Multicast 225"
+            destination {
+                address 225.0.0.0/4
+            }
+            log disable
+        }
+        rule 60 {
+            action accept
+            description "Allow ICMP"
+            log disable
+            protocol icmp
         }
         rule 100 {
             action drop
