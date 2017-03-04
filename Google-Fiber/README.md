@@ -73,6 +73,9 @@ You're now ready to physically connect your EdgeRouter to the Google Fiber Jack 
 
 **NOTE:** If you try to connect to your EdgeRouter immediately after the reboot, but can't ping or connect to it, make sure you're connected to a LAN port (such as `eth2`) instead of the WAN port (probably `eth0`) you were probably connected to while configuring.
 
+# Google TV Considerations
+Google currently tries to reserve the 192.168.1.x subnet for internal use, so you must use a different subnet to avoid conflict and allow the TV to work. The example files use 192.168.0.x for the local LAN, but you can set anything you want -- as long as you are consistent throughout the `config.boot` file.
+
 # Google Fiber IPv6 Considerations
 Based on the most recent IPv6 information from Google, residential customers should be requesting IPv6 addressing
 with a prefix length of `/56` (which is what is used in these examples).
