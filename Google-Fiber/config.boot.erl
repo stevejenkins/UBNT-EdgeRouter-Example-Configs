@@ -1,4 +1,4 @@
-/* EdgeRouter Lite + Google Fiber IPv4/IPv6 Config */
+/* EdgeRouter Lite + Google Fiber (including Google TV) IPv4/IPv6 Dual Stack Config */
 /* https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
 firewall {
     all-ping enable
@@ -8,40 +8,20 @@ firewall {
         description "WAN inbound traffic forwarded to LAN"
         rule 10 {
             action accept
-            description "Allow Multicast"
-            destination {
-                address ff02::1
-            }
-            log disable
-        }
-        rule 20 {
-            action accept
-            description "Allow UDP Multicast"
-            destination {
-                address ff02::1
-            }
-            log disable
-            protocol udp
-            state {
-                new enable
-            }
-        }            
-        rule 30 {
-            action accept
             description "Allow established/related"
             state {
                 established enable
                 related enable
             }
         }
-        rule 40 {
+        rule 20 {
             action drop
             description "Drop invalid state"
             state {
                 invalid enable
             }
         }
-        rule 50 {
+        rule 30 {
             action accept
             description "Allow ICMPv6"
             log disable
@@ -232,11 +212,25 @@ firewall {
         }
         rule 40 {
             action accept
-            description "Allow Multicast"
+            description "Allow Multicast 224"
             destination {
                 address 224.0.0.0/4
             }
             log disable
+        }
+        rule 50 {
+            action accept
+            description "Allow Multicast 225"
+            destination {
+                address 225.0.0.0/4
+            }
+            log disable
+        }
+        rule 60 {
+            action accept
+            description "Allow ICMP"
+            log disable
+            protocol icmp
         }
         rule 100 {
             action drop
