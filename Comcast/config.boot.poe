@@ -1,3 +1,5 @@
+/* EdgeRouter POE + Comcast IPv4/IPv6 Dual Stack Config */
+/* https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
 firewall {
     all-ping enable
     broadcast-ping disable
@@ -248,6 +250,7 @@ interfaces {
                 prefix-length /60
             }
             rapid-commit enable
+        }
         duplex auto
         firewall {
             in {

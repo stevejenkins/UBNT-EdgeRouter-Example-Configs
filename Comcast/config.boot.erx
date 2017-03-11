@@ -1,4 +1,4 @@
-/* EdgeRouter X + Comcast IPv4/IPv6 Config */
+/* EdgeRouter X + Comcast IPv4/IPv6 Dual Stack Config */
 /* https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
 firewall {
     all-ping enable
@@ -231,7 +231,8 @@ interfaces {
                 prefix-length /60
             }
             rapid-commit enable
-        duplex auto
+	}
+	duplex auto
         firewall {
             in {
                 ipv6-name WANv6_IN
