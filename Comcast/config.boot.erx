@@ -231,7 +231,8 @@ interfaces {
                 prefix-length /60
             }
             rapid-commit enable
-        duplex auto
+	}
+	duplex auto
         firewall {
             in {
                 ipv6-name WANv6_IN
