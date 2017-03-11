@@ -228,6 +228,7 @@ interfaces {
                 prefix-length /60
             }
             rapid-commit enable
+        }
         duplex auto
         firewall {
             in {
