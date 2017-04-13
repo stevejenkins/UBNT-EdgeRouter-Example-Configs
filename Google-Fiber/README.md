@@ -74,7 +74,9 @@ You're now ready to physically connect your EdgeRouter to the Google Fiber Jack 
 **NOTE:** If you try to connect to your EdgeRouter immediately after the reboot, but can't ping or connect to it, make sure you're connected to a LAN port (such as `eth2`) instead of the WAN port (probably `eth0`) you were probably connected to while configuring.
 
 # Google TV Considerations
-Google currently tries to reserve the 192.168.1.x subnet for internal use, so you must use a different subnet to avoid conflict and allow the TV to work. The example files use 192.168.0.x for the local LAN, but you can set anything you want -- as long as you are consistent throughout the `config.boot` file.
+My `config.boot` files used to include elements (inclduing igmp-proxy and multicast firewall settings) to enable Google TV on an EdgeRouter. However, Google had a terrible habit of changing the multicast addresses and settings without warning, thereby breaking Google TV service on the EdgeRouter. The Google TV settings are no longer part of my suggested configurations.
+
+For Google TV users only, I now recommend installing a simple Gigabit switch, such as the [NETGEAR GS105NA](http://amzn.to/2nIAaVZ), "downstream" of the Google Fiber jack, then connecting both the Google Fiber TV box and the EdgeRouter's WAN port to separate ports on the Gigabit switch. This separates the Google TV service from the EdgeRouter and will allow everything to function normally without having to chase down changing settings at Google's whim.
 
 # Google Fiber IPv6 Considerations
 Based on the most recent IPv6 information from Google, residential customers should be requesting IPv6 addressing
