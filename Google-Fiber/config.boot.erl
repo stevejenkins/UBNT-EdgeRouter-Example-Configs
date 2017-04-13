@@ -155,7 +155,7 @@ firewall {
             action accept
             description "Port Forward - Router SSH"
             destination {
-                address 192.168.0.1
+                address 192.168.1.1
                 port 22
             }
             protocol tcp
@@ -164,7 +164,7 @@ firewall {
             action accept
             description "Port Forward - Router HTTPS"
             destination {
-                address 192.168.0.1
+                address 192.168.1.1
                 port 443
             }
             protocol tcp
@@ -276,7 +276,7 @@ interfaces {
         speed auto
     }
     ethernet eth2 {
-        address 192.168.0.1/24
+        address 192.168.1.1/24
         description LAN
         duplex auto
         firewall {
@@ -301,7 +301,7 @@ port-forward {
     rule 10 {
         description "Router SSH"
         forward-to {
-            address 192.168.0.1
+            address 192.168.1.1
             port 22
         }
         original-port 2222
@@ -310,7 +310,7 @@ port-forward {
     rule 20 {
         description "Router HTTPS"
         forward-to {
-            address 192.168.0.1
+            address 192.168.1.1
             port 443
         }
         original-port 8080
@@ -337,15 +337,15 @@ service {
         }
         shared-network-name LAN {
             authoritative disable
-            subnet 192.168.0.0/24 {
-                default-router 192.168.0.1
-                dns-server 192.168.0.1
+            subnet 192.168.1.0/24 {
+                default-router 192.168.1.1
+                dns-server 192.168.1.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
                 domain-name example.com
                 lease 86400
-                start 192.168.0.101 {
-                    stop 192.168.0.254
+                start 192.168.1.101 {
+                    stop 192.168.1.254
                 }
             }
         }
