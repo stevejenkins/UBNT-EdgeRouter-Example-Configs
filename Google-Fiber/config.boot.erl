@@ -1,4 +1,3 @@
-/* EdgeRouter Lite + Google Fiber (including Google TV) IPv4/IPv6 Dual Stack Config */
 /* https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
 firewall {
     all-ping enable
@@ -103,46 +102,6 @@ firewall {
         description "WAN to internal"
         rule 10 {
             action accept
-            description "Allow Multicast 224"
-            destination {
-                address 224.0.0.0/4
-            }
-            log disable
-        }
-        rule 20 {
-            action accept
-            description "Allow Multicast 225"
-            destination {
-                address 225.0.0.0/4
-            }
-            log disable
-        }
-        rule 30 {
-            action accept
-            description "Allow UDP to Multicast 224"
-            destination {
-                address 224.0.0.0/4
-            }
-            log disable
-            protocol udp
-            state {
-                new enable
-            }
-        }
-        rule 40 {
-            action accept
-            description "Allow UDP to Multicast 225"
-            destination {
-                address 225.0.0.0/4
-            }
-            log disable
-            protocol udp
-            state {
-                new enable
-            }
-        }
-        rule 50 {
-            action accept
             description "Allow established/related"
             log disable
             state {
@@ -152,7 +111,7 @@ firewall {
                 related enable
             }
         }
-        rule 60 {
+        rule 20 {
             action accept
             description "Allow ICMP"
             log disable
@@ -162,7 +121,7 @@ firewall {
                 related enable
             }
         }
-        rule 70 {
+        rule 30 {
             action accept
             description "Allow IGMP"
             log disable
@@ -211,22 +170,6 @@ firewall {
             protocol tcp
         }
         rule 40 {
-            action accept
-            description "Allow Multicast 224"
-            destination {
-                address 224.0.0.0/4
-            }
-            log disable
-        }
-        rule 50 {
-            action accept
-            description "Allow Multicast 225"
-            destination {
-                address 225.0.0.0/4
-            }
-            log disable
-        }
-        rule 60 {
             action accept
             description "Allow ICMP"
             log disable
@@ -374,20 +317,6 @@ port-forward {
         protocol tcp_udp
     }
     wan-interface eth0.2
-}
-protocols {
-    igmp-proxy {
-        interface eth0.2 {
-            alt-subnet 10.0.0.0/8
-            role upstream
-            threshold 1
-        }
-        interface eth2 {
-            alt-subnet 192.168.0.0/24
-            role downstream
-            threshold 1
-        }
-    }
 }
 service {
     dhcp-server {
