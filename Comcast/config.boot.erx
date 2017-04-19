@@ -1,5 +1,4 @@
-/* EdgeRouter X + Comcast IPv4/IPv6 Dual Stack Config */
-/* https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
+/* EdgeRouter X + Comcast IPv4/IPv6 Dual Stack Config - https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
 firewall {
     all-ping enable
     broadcast-ping disable
@@ -213,19 +212,14 @@ interfaces {
         description WAN
         dhcpv6-pd {
             pd 0 {
-                interface eth1 {
+                interface switch0 {
                     host-address ::1
                     prefix-id :0
                     service slaac
                 }
-                interface eth1.102 {
+                interface switch0.102 {
                     host-address ::1
                     prefix-id :1
-                    service slaac
-                }
-                interface eth2 {
-                    host-address ::1
-                    prefix-id :2
                     service slaac
                 }
                 prefix-length /60
