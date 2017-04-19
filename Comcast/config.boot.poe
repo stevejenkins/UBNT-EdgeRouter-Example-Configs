@@ -3,9 +3,9 @@
 firewall {
     all-ping enable
     broadcast-ping disable
-    ipv6-name WAN6_IN {
+    ipv6-name WANv6_IN {
         default-action drop
-        description "WAN6 to LAN"
+        description "WAN inbound traffic forwarded to LAN"
         enable-default-log
         rule 10 {
             action accept
@@ -29,9 +29,9 @@ firewall {
             protocol icmpv6
         }
     }
-    ipv6-name WAN6_LOCAL {
+    ipv6-name WANv6_LOCAL {
         default-action drop
-        description "WAN6 to Router"
+        description "WAN inbound traffic to the router"
         enable-default-log
         rule 10 {
             action accept
@@ -67,9 +67,9 @@ firewall {
             }
         }
     }
-    ipv6-name WAN6_OUT {
+    ipv6-name WANv6_OUT {
         default-action accept
-        description "LAN to WAN6"
+        description "WAN outbound traffic"
         rule 10 {
             action accept
             description "Allow established/related"
@@ -254,15 +254,15 @@ interfaces {
         duplex auto
         firewall {
             in {
-                ipv6-name WAN6_IN
+                ipv6-name WANv6_IN
                 name WAN_IN
             }
             local {
-                ipv6-name WAN6_LOCAL
+                ipv6-name WANv6_LOCAL
                 name WAN_LOCAL
             }
             out {
-                ipv6-name WAN6_OUT
+                ipv6-name WANv6_OUT
                 name WAN_OUT
             }
         }
