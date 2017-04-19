@@ -26,7 +26,7 @@ firewall {
             description "Allow ICMPv6"
             protocol icmpv6
         }
-}
+    }
     ipv6-name WANv6_LOCAL {
         default-action drop
         description "WAN inbound traffic to the router"
@@ -126,6 +126,7 @@ firewall {
         rule 100 {
             action drop
             description "Drop invalid state"
+	    log disable
             protocol all
             state {
                 established disable
@@ -142,7 +143,6 @@ firewall {
         rule 10 {
             action accept
             description "Allow established/related"
-            log disable
             state {
                 established enable
                 related enable
@@ -371,6 +371,7 @@ service {
     nat {
         rule 5000 {
             description "Masquerade for WAN"
+	    log disable
             outbound-interface eth0
             protocol all
             type masquerade
