@@ -5,31 +5,7 @@ firewall {
     ipv6-name WANv6_IN {
         default-action drop
         description "WAN inbound traffic forwarded to LAN"
-        rule 10 {
-            action accept
-            description "Allow established/related"
-            state {
-                established enable
-                related enable
-            }
-        }
-        rule 20 {
-            action drop
-            description "Drop invalid state"
-            state {
-                invalid enable
-            }
-        }
-            rule 30 {
-            action accept
-            description "Allow ICMPv6"
-            log disable
-            protocol icmpv6
-        }
-   }
-    ipv6-name WANv6_LOCAL {
-        default-action drop
-        description "WAN inbound traffic to the router"
+	enable-default-log
         rule 10 {
             action accept
             description "Allow established/related"
@@ -48,7 +24,31 @@ firewall {
         rule 30 {
             action accept
             description "Allow ICMPv6"
-            log disable
+            protocol icmpv6
+        }
+}
+    ipv6-name WANv6_LOCAL {
+        default-action drop
+        description "WAN inbound traffic to the router"
+	enable-default-log
+	rule 10 {
+            action accept
+            description "Allow established/related"
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 20 {
+            action drop
+            description "Drop invalid state"
+            state {
+                invalid enable
+            }
+        }
+        rule 30 {
+            action accept
+            description "Allow ICMPv6"
             protocol icmpv6
         }
         rule 40 {
@@ -89,6 +89,7 @@ firewall {
     name LAN_IN {
         default-action accept
         description "LAN to Internal"
+	enable-default-log
         rule 10 {
             action drop
             description "Drop invalid state"
@@ -99,7 +100,8 @@ firewall {
     }
     name WAN_IN {
         default-action drop
-        description "WAN to internal"
+        description "WAN to LAN"
+	enable-default-log
         rule 10 {
             action accept
             description "Allow established/related"
@@ -135,7 +137,8 @@ firewall {
     }
     name WAN_LOCAL {
         default-action drop
-        description "WAN to router"
+        description "WAN to Router"
+	enable-default-log
         rule 10 {
             action accept
             description "Allow established/related"
@@ -177,7 +180,8 @@ firewall {
     }
     name WAN_OUT {
         default-action accept
-        description "Internal to WAN"
+        description "LAN to WAN"
+	enable-default-log
         rule 10 {
             action accept
             description "Allow established/related"
