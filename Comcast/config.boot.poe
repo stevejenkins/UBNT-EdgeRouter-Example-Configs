@@ -50,9 +50,7 @@ firewall {
         rule 30 {
             action accept
             description "Allow ICMPv6"
-            icmpv6 {
-            }
-            protocol ipv6-icmp
+            protocol icmpv6
         }
         rule 40 {
             action accept
