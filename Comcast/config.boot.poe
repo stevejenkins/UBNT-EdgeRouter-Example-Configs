@@ -24,7 +24,6 @@ firewall {
         rule 30 {
             action accept
             description "Allow ICMPv6"
-            log disable
             protocol icmpv6
         }
     }
@@ -114,7 +113,7 @@ firewall {
                 related enable
             }
         }
-       rule 20 {
+        rule 20 {
             action accept
             description "Allow ICMP"
             log disable
@@ -123,12 +122,6 @@ firewall {
                 established enable
                 related enable
             }
-        }
-        rule 30 {
-            action accept
-            description "Allow IGMP"
-            log disable
-            protocol igmp
         }
         rule 100 {
             action drop
@@ -162,10 +155,7 @@ firewall {
                 address 192.168.1.1
                 port 22
             }
-            log disable
             protocol tcp
-            time {
-            }
         }
         rule 30 {
             action accept
@@ -174,7 +164,6 @@ firewall {
                 address 192.168.1.1
                 port 443
             }
-            log disable
             protocol tcp
         }
         rule 100 {
@@ -206,7 +195,6 @@ firewall {
         rule 20 {
             action reject
             description "Reject invalid state"
-            log enable
             state {
                 invalid enable
             }
@@ -215,7 +203,7 @@ firewall {
     options {
         mss-clamp {
             interface-type all
-            mss 1412
+            mss 1460
         }
     }
     receive-redirects disable
@@ -290,7 +278,7 @@ interfaces {
               output off
         }
         speed auto
-     }
+    }
     ethernet eth3 {
         description "LAN"
         duplex auto
