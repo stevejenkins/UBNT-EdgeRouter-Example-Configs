@@ -1,5 +1,4 @@
-/* EdgeRouter Lite + Comcast IPv4/IPv6 Dual Stack Config */
-/* https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
+/* EdgeRouter Lite + Comcast IPv4/IPv6 Dual Stack Config - https://github.com/stevejenkins/UBNT-EdgeRouter-Example-Configs */
 firewall {
     all-ping enable
     broadcast-ping disable
