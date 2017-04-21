@@ -415,8 +415,7 @@ system {
         }
     }
     offload {
-    	/* Enabling hwnat on ER-X disables IPv6 */
-        hwnat disable
+        hwnat enable
         ipsec enable
     }
     package {
