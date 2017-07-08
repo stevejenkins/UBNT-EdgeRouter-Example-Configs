@@ -285,7 +285,7 @@ interfaces {
         description "LAN"
         duplex auto
         poe {
-              output 48v
+              output off
         }
         speed auto
      }
@@ -301,7 +301,7 @@ interfaces {
         description "LAN"
         duplex auto
         poe {
-              output 48v
+              output off
         }       
         speed auto
     }
@@ -336,30 +336,22 @@ port-forward {
     auto-firewall enable
     hairpin-nat enable
     lan-interface switch0
-    rule 1 {
-        description "server ssh"
+    rule 10 {
+        description "Router SSH"
         forward-to {
-            address 192.168.1.10
+            address 192.168.1.1
             port 22
         }
-        original-port 22
+        original-port 2222
         protocol tcp_udp
     }
-    rule 2 {
-        description "server https"
+    rule 20 {
+        description "Router HTTPS"
         forward-to {
-            address 192.168.1.10
+            address 192.168.1.1
             port 443
         }
-        original-port 443
-        protocol tcp_udp
-    }
-    rule 4 {
-        description rtorrent
-        forward-to {
-            address 192.168.1.10
-        }
-        original-port 6881-6999
+        original-port 8080
         protocol tcp_udp
     }
     wan-interface eth0.2
@@ -374,6 +366,7 @@ service {
                 default-router 172.16.0.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
+                domain-name guest.example.com
                 lease 86400
                 start 172.16.0.10 {
                     stop 172.16.0.254
@@ -387,13 +380,10 @@ service {
                 dns-server 192.168.1.1
                 dns-server 8.8.8.8
                 dns-server 8.8.4.4
+                domain-name example.com
                 lease 86400
                 start 192.168.1.101 {
                     stop 192.168.1.254
-                }
-                static-mapping server {
-                    ip-address 192.168.1.10
-                    mac-address 4c:72:b9:42:fc:1d
                 }
             }
         }
@@ -447,13 +437,14 @@ service {
     }
 }
 system {
-    host-name edgy-loop
+    host-name UBNT-gateway
     login {
-        user redacted {
+        user ubnt {
             authentication {
-                encrypted-password redacted
+                encrypted-password $1$zKNoUbAo$gomzUbYvgyUMcD436Wo66.
                 plaintext-password ""
             }
+            full-name "UBNT Admin"
             level admin
         }
     }
@@ -483,19 +474,6 @@ system {
             vlan enable
         }
     }
-    static-host-mapping {
-        host-name edgy {
-            inet 192.168.1.1
-        }
-        host-name server {
-            alias nzb
-            alias tv
-            alias index
-            alias torrent
-            alias plex
-            inet 192.168.1.10
-        }
-    }
     package {
         repository wheezy {
             components "main contrib non-free"
@@ -515,7 +493,7 @@ system {
             }
         }
     }
-    time-zone America/Chicago
+    time-zone America/Denver
     traffic-analysis {
         dpi disable
         export enable
