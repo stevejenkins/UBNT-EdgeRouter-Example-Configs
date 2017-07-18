@@ -3,7 +3,8 @@ This repo contains a collection of example **config.boot** files which you can u
 for configuring your UBNT EdgeRouter for IPv4 and IPv6 on a number of networks, including:
 
 * Google Fiber
-* Comcast
+* Comcast Xfinity
+* Charter Spectrum
 
 # Usage
 Copy the raw contents of the appropriate `config.boot` file into your local clipboard.
@@ -47,3 +48,11 @@ If you edit the IPv6 settings in your `config.boot` and want to apply them immed
     $ renew dhcpv6-pd interface eth0
 
 Change `eth0` as needed to match your configuration's WAN interface.
+
+# Test IPv6 Connectivity
+Test your connection for IPv6 support by visiting these websites:
+* http://ipv6-test.com/
+* http://test-ipv6.com/
+* http://testmyipv6.com/
+* http://ipv6test.google.com/
+* http://ipv6leak.com/
