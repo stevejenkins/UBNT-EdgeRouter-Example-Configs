@@ -1,15 +1,15 @@
-# Comcast Dual Stack (IPv4 + IPv6) EdgeRouter Example config.boot Files
+# Comcast Xfinity Dual Stack (IPv4 + IPv6) EdgeRouter Example config.boot Files
 
 These files are example `config.boot` configuration files that can be be loaded on a factory-default Ubiquiti EdgeRouter
-Lite (ERLite-3) or EdgeRouter POE (ERPOE-5) to enable dual-stack IPv4 & IPv6 networking on residential Comcast networks.
+Lite (ERLite-3) or EdgeRouter POE (ERPOE-5) to enable dual-stack IPv4 & IPv6 networking on residential Comcast Xfinity networks.
 
-- `config.boot.erl` - Comcast configuration file for EdgeRouter Lite
-- `config.boot.erx` - Comcast configuration file for EdgeRouter X
-- `config.boot.poe` - Comcast configuration file for EdgeRouter POE
+- `config.boot.erl` - Comcast Xfinity configuration file for EdgeRouter Lite
+- `config.boot.erx` - Comcast Xfinity configuration file for EdgeRouter X
+- `config.boot.poe` - Comcast Xfinity configuration file for EdgeRouter POE
 - `config.gateway.json` - JSON-formatted file for UniFi Security Gateway (runs EdgeOS)
 
 # Port Settings
-The default port/interface settings for each version of the example Google Fiber `config.boot` files are:
+The default port/interface settings for each version of the example Comcast Xfinity `config.boot` files are:
 
 ###Comcast config.boot.erl####
 - `eth0` = WAN (Cable Modem)
