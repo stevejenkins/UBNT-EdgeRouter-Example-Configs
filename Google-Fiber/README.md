@@ -90,6 +90,14 @@ If you ever edit the IPv6 settings in your `config.boot` via the EdgeRouter CLI 
 
 Change `eth0` as needed to match your configuration's WAN interface.
 
+# Test IPv6 Connectivity
+Test your connection for IPv6 support by visiting these websites:
+* http://ipv6-test.com/
+* http://test-ipv6.com/
+* http://testmyipv6.com/
+* http://ipv6test.google.com/
+* http://ipv6leak.com/
+
 # Support
 Support for using these files is on this thread in the UBNT EdgeMax forums:
 
