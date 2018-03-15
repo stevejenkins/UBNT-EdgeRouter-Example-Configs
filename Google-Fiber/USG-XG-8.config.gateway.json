@@ -1,0 +1,36 @@
+{
+        "interfaces": {
+                "ethernet": {
+                        "eth5": {
+                                "duplex": "full",
+                                "speed": "1000"
+                        },
+                        "eth8": {
+                                "vif": {
+                                        "2": {
+                                                "address": "dhcp",
+                                                "egress-qos": "0:3"
+                                        }
+                                }
+                        }
+                }
+        },
+        "service": {
+                "nat": {
+                        "rule": {
+                                "6001": {
+                                        "outbound-interface": "eth8.2"
+                                },
+                                "6002": {
+                                        "outbound-interface": "eth8.2"
+                                },
+                                "6003": {
+                                        "outbound-interface": "eth8.2"
+                                }
+                        }
+                }
+        },
+        "port-forward": {
+                "wan-interface": "eth8.2"
+        }
+}
