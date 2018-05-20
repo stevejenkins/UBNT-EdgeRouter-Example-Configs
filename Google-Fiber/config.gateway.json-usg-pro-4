@@ -1,26 +1,98 @@
 {
-        "interfaces": {
-                "ethernet": {
-                      "eth2": {
-                                "vif": {
-                                        "2": {
-                                                "address": "dhcp",
-                                                "egress-qos": "0:3"
-                                        }
-                                }
-                        }
-                }
-        },
-        "service": {
-                "nat": {
-                        "rule": {
-                                "5000": {
-                                        "outbound-interface": "eth2.2"
-                                }
-                        }
-                }
-        },
-        "port-forward": {
-                "wan-interface": "eth2.2"
-        }
+	"interfaces": {
+		"ethernet": {
+			"eth2": {
+				"vif": {
+					"2": {
+						"address": [
+							"dhcp"
+						],
+						"dhcpv6-pd": {
+							"pd": {
+								"0": {
+									"interface": {
+										"eth1": {
+											"host-address": "::1",
+											"prefix-id": ":0",
+											"service": "slaac"
+										},
+										"eth1.102": {
+											"host-address": "::1",
+											"prefix-id": ":1",
+											"service": "slaac"
+										}
+									},
+									"prefix-length": "/56"
+								}
+							},
+							"rapid-commit": "enable"
+						},
+						"egress-qos": "0:3",
+						"firewall": {
+							"in": {
+								"ipv6-name": "WANv6_IN",
+								"name": "WAN_IN"
+							},
+							"local": {
+								"ipv6-name": "WANv6_LOCAL",
+								"name": "WAN_LOCAL"
+							},
+							"out": {
+								"ipv6-name": "WANv6_OUT",
+								"name": "WAN_OUT"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"port-forward": {
+		"wan-interface": "eth2.2"
+	},
+	"service": {
+		"dns": {
+			"forwarding": {
+				"except-interface": [
+					"eth2.2"
+				]
+			}
+		},
+		"lldp": {
+			"interface": {
+				"eth2.2": {
+					"disable": "''"
+				}
+			}
+		},
+		"nat": {
+			"rule": {
+				"6001": {
+					"outbound-interface": "eth2.2"
+				},
+				"6002": {
+					"outbound-interface": "eth2.2"
+				},
+				"6003": {
+					"outbound-interface": "eth2.2"
+				}
+			}
+		},
+		"upnp2": {
+			"wan": "eth2.2"
+		}
+	},
+	"system": {
+		"package": {
+			"repository": {
+				"wheezy": {
+					"components": "main contrib non-free",
+					"distribution": "wheezy",
+					"password": "",
+					"url": "http://http.us.debian.org/debian",
+					"username": ""
+				}
+			}
+		}
+	}
 }
