@@ -1,0 +1,26 @@
+{
+        "interfaces": {
+                "ethernet": {
+                      "eth2": {
+                                "vif": {
+                                        "2": {
+                                                "address": "dhcp",
+                                                "egress-qos": "0:3"
+                                        }
+                                }
+                        }
+                }
+        },
+        "service": {
+                "nat": {
+                        "rule": {
+                                "5000": {
+                                        "outbound-interface": "eth2.2"
+                                }
+                        }
+                }
+        },
+        "port-forward": {
+                "wan-interface": "eth2.2"
+        }
+}
