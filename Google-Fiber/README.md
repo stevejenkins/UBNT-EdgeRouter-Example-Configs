@@ -9,9 +9,9 @@ Lite (ERLite-3), EdgeRouter X (ER-X), or EdgeRouter POE (ERPOE-5) to enable dual
 
 These additional files are example `config.gateway.json` configuration files that can be loaded on a UniFi Controller to enable dual-stack IPv4 & IPv6 networking on the following UBNT's UniFi Security Gateway products:
 
-- `config.gateway.json-usg3` - Google Fiber configuration file for UniFi Security Gateway 3P (USG3)
-- `config.gateway.json-usg4` - Google Fiber configuration file for UniFi Security Gateway 4 Pro (USG4)
-- `config.gateway.json-usgxg8` - Google Fiber configuration file for UniFi Security Gateway XG-8 (USG-XG8)
+- `config.gateway.json-usg-3` - Google Fiber configuration file for UniFi Security Gateway 3P (USG3)
+- `config.gateway.json-usg-pro-4` - Google Fiber configuration file for UniFi Security Gateway 4 Pro (USG4)
+- `config.gateway.json-usg-xg-8` - Google Fiber configuration file for UniFi Security Gateway XG-8 (USG-XG8)
 
 # Port Settings
 The default port/interface settings for each version of the example config files are:
