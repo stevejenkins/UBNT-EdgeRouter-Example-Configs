@@ -1,14 +1,20 @@
 # Google Fiber (IPv4 + IPv6) EdgeRouter Example config.boot Files
 
-These files are example `config.boot` configuration files that can be be loaded on a factory-default Ubiquiti EdgeRouter
+These files are example `config.boot` configuration files that can be loaded on a factory-default Ubiquiti EdgeRouter
 Lite (ERLite-3), EdgeRouter X (ER-X), or EdgeRouter POE (ERPOE-5) to enable dual-stack IPv4 & IPv6 networking on Google Fiber and replace the Google Fiber Network Box.
 
 - `config.boot.erl` - Google Fiber configuration file for EdgeRouter Lite
 - `config.boot.erx` - Google Fiber configuration file for EdgeRouter X
 - `config.boot.poe` - Google Fiber configuration file for EdgeRouter POE
 
+These additional files are example `config.gateway.json` configuration files that can be loaded on a UniFi Controller to enable dual-stack IPv4 & IPv6 networking on the following UBNT's UniFi Security Gateway products:
+
+- `config.gateway.json-usg-3` - Google Fiber configuration file for UniFi Security Gateway 3P (USG3)
+- `config.gateway.json-usg-pro-4` - Google Fiber configuration file for UniFi Security Gateway 4 Pro (USG4)
+- `config.gateway.json-usg-xg-8` - Google Fiber configuration file for UniFi Security Gateway XG-8 (USG-XG8)
+
 # Port Settings
-The default port/interface settings for each version of the example Google Fiber `config.boot` files are:
+The default port/interface settings for each version of the example config files are:
 
 ###Google Fiber config.boot.erl####
 - `eth0` = WAN (Google Fiber Jack)
@@ -84,11 +90,11 @@ with a prefix length of `/56` (which is what is used in these examples).
 
 If you ever edit the IPv6 settings in your `config.boot` via the EdgeRouter CLI and want to apply them immediately, do:
 
-    $ release dhcpv6-pd interface eth0
+    $ release dhcpv6-pd interface eth0.2
     $ delete dhcpv6-pd duid 
-    $ renew dhcpv6-pd interface eth0
+    $ renew dhcpv6-pd interface eth0.2
 
-Change `eth0` as needed to match your configuration's WAN interface.
+Change `eth0.2` as needed to match your configuration's VLAN-tagged WAN interface.
 
 # Test IPv6 Connectivity
 Test your connection for IPv6 support by visiting these websites:

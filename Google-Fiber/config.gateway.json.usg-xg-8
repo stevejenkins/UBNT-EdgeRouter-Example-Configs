@@ -1,14 +1,38 @@
+
 {
         "interfaces": {
                 "ethernet": {
+                        "eth0": {
+                                "description": "WAN2 (Disabled)"
+                        },
+                        "eth1": {
+                                "description": "LAN"
+                        },
+                        "eth2": {
+                                "description": "(Disabled)"
+                        },
+                        "eth3": {
+                                "description": "(Disabled)"
+                        },
+                        "eth4": {
+                                "description": "(Disabled)"
+                        },
                         "eth5": {
                                 "duplex": "full",
                                 "speed": "1000"
                         },
+                        "eth6": {
+                                "description": "(Disabled)"
+                        },
+                        "eth7": {
+                                "description": "(Disabled)"
+                        },
                         "eth8": {
+                                "description": "Google Fiber Jack",
                                 "vif": {
                                         "2": {
                                                 "address": "dhcp",
+                                                "description": "Google Fiber WAN",
                                                 "egress-qos": "0:3"
                                         }
                                 }
@@ -32,5 +56,18 @@
         },
         "port-forward": {
                 "wan-interface": "eth8.2"
+        },
+        "system": {
+                "package": {
+                        "repository": {
+                                "wheezy": {
+                                        "components": "main contrib non-free",
+                                        "distribution": "wheezy",
+                                        "password": "",
+                                        "url": "http://http.us.debian.org/debian",
+                                        "username": ""
+                                }
+                        }
+                }
         }
 }
