@@ -7,11 +7,11 @@ Lite (ERLite-3), EdgeRouter X (ER-X), or EdgeRouter POE (ERPOE-5) to enable dual
 - `config.boot.erx` - Google Fiber configuration file for EdgeRouter X
 - `config.boot.poe` - Google Fiber configuration file for EdgeRouter POE
 
-<del>These additional files are example `config.gateway.json` configuration files that can be loaded on a UniFi Controller to enable dual-stack IPv4 & IPv6 networking on the following UBNT's UniFi Security Gateway products:
+<del>These additional files are example `config.gateway.json` configuration files that can be loaded on a UniFi Controller to enable dual-stack IPv4 & IPv6 networking on the following UBNT's UniFi Security Gateway products:</del>
 
-- `config.gateway.json-usg-3` - Google Fiber configuration file for UniFi Security Gateway 3P (USG3)
-- `config.gateway.json-usg-pro-4` - Google Fiber configuration file for UniFi Security Gateway 4 Pro (USG4)
-- `config.gateway.json-usg-xg-8` - Google Fiber configuration file for UniFi Security Gateway XG-8 (USG-XG8)</del>
+<del>`config.gateway.json-usg-3` - Google Fiber configuration file for UniFi Security Gateway 3P (USG3)</del>
+<del>`config.gateway.json-usg-pro-4` - Google Fiber configuration file for UniFi Security Gateway 4 Pro (USG4)</del>
+<del>`config.gateway.json-usg-xg-8` - Google Fiber configuration file for UniFi Security Gateway XG-8 (USG-XG8)</del>
 
 USG routers no longer need JSON files to work on Google Fiber and so their config files have been deprecated. They will still work, but are no longer necessary. To connect a default USG to Google Fiber, access the USG's local setup UI and configure as normal, but turn on "Use VLAN ID" and select "2". That will allow the USG to access the Internet and allow you to continue USG configuration on the UniFi SDN Controller. Once Be sure to enable QoS Tag 3 in the controller's WAN settings or you'll be stuck with 50% speeds.
 
