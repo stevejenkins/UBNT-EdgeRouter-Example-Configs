@@ -243,7 +243,7 @@ interfaces {
                         prefix-id :2
                         service slaac
                     }
-                    prefix-length /56
+                    prefix-length /64
                 }
                 rapid-commit enable
             }

@@ -1,7 +1,7 @@
 {
 	"interfaces": {
 		"ethernet": {
-			"eth2": {
+			"eth0": {
 				"vif": {
 					"2": {
 						"address": [
@@ -22,7 +22,7 @@
 											"service": "slaac"
 										}
 									},
-									"prefix-length": "/56"
+									"prefix-length": "/64"
 								}
 							},
 							"rapid-commit": "enable"
@@ -48,19 +48,19 @@
 		}
 	},
 	"port-forward": {
-		"wan-interface": "eth2.2"
+		"wan-interface": "eth0.2"
 	},
 	"service": {
 		"dns": {
 			"forwarding": {
 				"except-interface": [
-					"eth2.2"
+					"eth0.2"
 				]
 			}
 		},
 		"lldp": {
 			"interface": {
-				"eth2.2": {
+				"eth0.2": {
 					"disable": "''"
 				}
 			}
@@ -68,18 +68,18 @@
 		"nat": {
 			"rule": {
 				"6001": {
-					"outbound-interface": "eth2.2"
+					"outbound-interface": "eth0.2"
 				},
 				"6002": {
-					"outbound-interface": "eth2.2"
+					"outbound-interface": "eth0.2"
 				},
 				"6003": {
-					"outbound-interface": "eth2.2"
+					"outbound-interface": "eth0.2"
 				}
 			}
 		},
 		"upnp2": {
-			"wan": "eth2.2"
+			"wan": "eth0.2"
 		}
 	},
 	"system": {
