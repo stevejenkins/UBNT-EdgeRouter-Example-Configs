@@ -11,21 +11,21 @@ Lite (ERLite-3) or EdgeRouter POE (ERPOE-5) to enable dual-stack IPv4 & IPv6 net
 # Port Settings
 The default port/interface settings for each version of the example Charter Spectrum `config.boot` files are:
 
-###Comcast config.boot.erl####
+###Charter config.boot.erl####
 - `eth0` = WAN (Cable Modem)
 - `eth1` = Local Config Port
 - `eth2` = LAN
 
-###Comcast Fiber config.boot.erx####
+###Charter Fiber config.boot.erx####
 - `eth0` = WAN (Cable Modem)
 - `eth1`, `eth2`, `eth3`, & `eth4` = LAN (combined as `switch0`)
 
-###Comcast config.boot.poe####
+###Charter config.boot.poe####
 - `eth0` = WAN (Cable Modem)
 - `eth1` = Local Config Port
 - `eth2`, `eth3`, `eth4` = LAN (combined as `switch0`)
 
-###Comcast config.gateway.json####
+###Charter config.gateway.json####
 - `eth0` = WAN (Cable Modem)
 - `eth2` = LAN
 
