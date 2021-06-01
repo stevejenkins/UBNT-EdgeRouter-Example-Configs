@@ -399,6 +399,8 @@ system {
     name-server 8.8.8.8
     name-server 8.8.4.4
     ntp {
+        server time.comcast.com {
+        }
         server 0.ubnt.pool.ntp.org {
         }
         server 1.ubnt.pool.ntp.org {

@@ -86,6 +86,16 @@ My `config.boot` files used to include elements (inclduing igmp-proxy and multic
 
 For Google TV users only, I now recommend installing a simple Gigabit switch, such as the [NETGEAR GS105NA](http://amzn.to/2nIAaVZ), "downstream" of the Google Fiber jack, then connecting both the Google Fiber TV box and the EdgeRouter's WAN port to separate ports on the Gigabit switch. This separates the Google TV service from the EdgeRouter and will allow everything to function normally without having to chase down changing settings at Google's whim.
 
+# Timekeeping
+
+The `system ntp` configuration includes
+    server time.google.com {
+        noselect
+    }
+This is marked as unused because [Google Public NTP](https://developers.google.com/time) serves [leap-smeared time](https://developers.google.com/time/smear), and Google "recommend(s) that you don’t configure Google Public NTP together with non-leap-smearing NTP servers" such as those of the [NTP Pool Project](https://www.ntppool.org/).
+
+By using Google Public NTP you could enjoy better quality time from a server nearer you in the network topology. Passing through fewer network hops could introduce lower latency and jitter than using a server that's nearer geographically. To switch from the NTP Pool Project's servers to Google Public NTP, remove `noselect` from the configuration for `time.google.com`, and add `noselect` to each of the other servers' configurations.
+
 # Google Fiber IPv6 Considerations
 Based on the most recent IPv6 information from Google, residential customers should be requesting IPv6 addressing
 with a prefix length of `/64` (which is what is used in these examples).
@@ -100,11 +110,18 @@ Change `eth0.2` as needed to match your configuration's VLAN-tagged WAN interfac
 
 # Test IPv6 Connectivity
 Test your connection for IPv6 support by visiting these websites:
-* http://ipv6-test.com/
-* http://test-ipv6.com/
+* https://ipv6-test.com/
+* https://test-ipv6.com/
 * http://testmyipv6.com/
-* http://ipv6test.google.com/
-* http://ipv6leak.com/
+* https://ipv6test.google.com/
+* https://ipv6leak.com/
+* https://ip6.me/
+* https://ipinfo.io/
+* https://ifconfig.me/
+* https://ifconfig.co/
+* https://api64.ipify.org/
+* https://ident.me/
+* https://checkip.amazonaws.com/
 
 # Support
 Support for using these files is on this thread in the UBNT EdgeMax forums:
