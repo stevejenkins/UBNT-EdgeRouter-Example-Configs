@@ -72,6 +72,23 @@ https://help.ubnt.com/hc/en-us/articles/215458888-UniFi-How-to-further-customize
 
 Be extremely careful when creating or editing a `config.gateway.json` file, as including malformed configuration options in a `config.gateway.json` file can lead to a provisioning loop. This is considered an advanced configuration option.
 
+# Timekeeping
+
+The `system ntp` configuration includes
+
+    server time.comcast.com {
+    }
+
+This is mixed with [NTP Pool Project](https://www.ntppool.org/) servers because you could enjoy better quality time from a server nearer you in the network topology. Passing through fewer network hops could introduce lower latency and jitter than using a server that's nearer geographically.
+
+In a chat conversation June 1 2021 with Xfinity Support, the agent could not confirm whether or not `time.comcast.com` serves [leap-smeared time](https://docs.ntpsec.org/latest/leapsmear.html), which should not be mixed with non-leap-smearing servers. If you discover symptoms attributable to leap smearing, change this to
+
+    server time.comcast.com {
+        noselect
+    }
+
+Alternatively, leave `time.comcast.com` selected, and add `noselect` to each of the pool servers configured. If you want more servers topologically nearby, you might also specify `time.comcast.net`, `time.xfinity.com`, and `time.xfinity.net`.
+
 # Comcast Xfinity IPv6 Considerations
 
 Based on the most recent [IPv6 information from Comcast](http://www.comcast6.net/), residential customers should be requesting IPv6 addressing with a prefix length of `/60` (which is what is used in these examples). Commercial customers should use a prefix length of `/56`.
@@ -86,8 +103,15 @@ Change `eth0` as needed to match your configuration's WAN interface.
 
 # Test IPv6 Connectivity
 Test your connection for IPv6 support by visiting these websites:
-* http://ipv6-test.com/
-* http://test-ipv6.com/
+* https://ipv6-test.com/
+* https://test-ipv6.com/
 * http://testmyipv6.com/
-* http://ipv6test.google.com/
-* http://ipv6leak.com/
+* https://ipv6test.google.com/
+* https://ipv6leak.com/
+* https://ip6.me/
+* https://ipinfo.io/
+* https://ifconfig.me/
+* https://ifconfig.co/
+* https://api64.ipify.org/
+* https://ident.me/
+* https://checkip.amazonaws.com/

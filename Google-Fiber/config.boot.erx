@@ -416,6 +416,9 @@ system {
     name-server 8.8.8.8
     name-server 8.8.4.4
     ntp {
+        server time.google.com {
+            noselect
+        }
         server 0.ubnt.pool.ntp.org {
         }
         server 1.ubnt.pool.ntp.org {
