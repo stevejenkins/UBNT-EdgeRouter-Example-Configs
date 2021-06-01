@@ -75,14 +75,18 @@ Be extremely careful when creating or editing a `config.gateway.json` file, as i
 # Timekeeping
 
 The `system ntp` configuration includes
+
     server time.comcast.com {
     }
+
 This is mixed with [NTP Pool Project](https://www.ntppool.org/) servers because you could enjoy better quality time from a server nearer you in the network topology. Passing through fewer network hops could introduce lower latency and jitter than using a server that's nearer geographically.
 
 In a chat conversation June 1 2021 with Xfinity Support, the agent could not confirm whether or not `time.comcast.com` serves [leap-smeared time](https://docs.ntpsec.org/latest/leapsmear.html), which should not be mixed with non-leap-smearing servers. If you discover symptoms attributable to leap smearing, change this to
+
     server time.comcast.com {
         noselect
     }
+
 Alternatively, leave `time.comcast.com` selected, and add `noselect` to each of the pool servers configured. If you want more servers topologically nearby, you might also specify `time.comcast.net`, `time.xfinity.com`, and `time.xfinity.net`.
 
 # Comcast Xfinity IPv6 Considerations

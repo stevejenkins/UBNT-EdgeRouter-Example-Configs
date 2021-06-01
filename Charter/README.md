@@ -75,14 +75,18 @@ Be extremely careful when creating or editing a `config.gateway.json` file, as i
 # Timekeeping
 
 The `system ntp` configuration includes
+
     server ntp.charter.com {
     }
+
 This is mixed with [NTP Pool Project](https://www.ntppool.org/) servers because you could enjoy better quality time from a server nearer you in the network topology. Passing through fewer network hops could introduce lower latency and jitter than using a server that's nearer geographically.
 
 In a chat conversation June 1 2021 with Spectrum Support, the agent said `ntp.charter.com` does not serve [leap-smeared time](https://docs.ntpsec.org/latest/leapsmear.html), which should not be mixed with non-leap-smearing servers. Alas, the agent could not provide a public document reflecting this. If you discover symptoms attributable to leap smearing, change this to
+
     server ntp.charter.com {
         noselect
     }
+
 Alternatively, leave `ntp.charter.com` selected, and add `noselect` to each of the pool servers configured.
 
 # Charter Spectrum IPv6 Considerations

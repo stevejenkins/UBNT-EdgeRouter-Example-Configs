@@ -89,9 +89,11 @@ For Google TV users only, I now recommend installing a simple Gigabit switch, su
 # Timekeeping
 
 The `system ntp` configuration includes
+
     server time.google.com {
         noselect
     }
+
 This is marked as unused because [Google Public NTP](https://developers.google.com/time) serves [leap-smeared time](https://developers.google.com/time/smear), and Google "recommend(s) that you don’t configure Google Public NTP together with non-leap-smearing NTP servers" such as those of the [NTP Pool Project](https://www.ntppool.org/).
 
 By using Google Public NTP you could enjoy better quality time from a server nearer you in the network topology. Passing through fewer network hops could introduce lower latency and jitter than using a server that's nearer geographically. To switch from the NTP Pool Project's servers to Google Public NTP, remove `noselect` from the configuration for `time.google.com`, and add `noselect` to each of the other servers' configurations.
